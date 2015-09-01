@@ -1,4 +1,4 @@
-﻿USE SchoolSchedulingExample;
+USE SchoolSchedulingExample;
 
 CREATE VIEW CH04_Building_List
 AS

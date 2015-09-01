@@ -1,4 +1,4 @@
-﻿USE SchoolSchedulingModify;
+USE SchoolSchedulingModify;
 /* NOTE:
    Be sure to turn off "safe" mode before attempting to run
    any of the update / insert / delete procedures.

@@ -1,4 +1,4 @@
-﻿USE EntertainmentAgencyExample;
+USE EntertainmentAgencyExample;
 
 CREATE VIEW CH04_Agent_Phone_List
 AS 

@@ -1,4 +1,4 @@
-﻿CREATE DATABASE RecipesExample;
+CREATE DATABASE RecipesExample;
 
 use RecipesExample;
 

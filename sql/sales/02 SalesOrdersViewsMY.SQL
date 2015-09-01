@@ -1,4 +1,4 @@
-﻿USE SalesOrdersExample;
+USE SalesOrdersExample;
 
 
 CREATE VIEW CH04_Customer_States

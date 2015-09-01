@@ -1,4 +1,4 @@
-﻿CREATE DATABASE EntertainmentAgencyModify;
+CREATE DATABASE EntertainmentAgencyModify;
 
 USE EntertainmentAgencyModify;
 

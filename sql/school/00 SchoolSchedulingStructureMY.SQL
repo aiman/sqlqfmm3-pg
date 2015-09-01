@@ -1,4 +1,4 @@
-﻿CREATE DATABASE SchoolSchedulingExample;
+CREATE DATABASE SchoolSchedulingExample;
 
 use SchoolSchedulingExample;
 

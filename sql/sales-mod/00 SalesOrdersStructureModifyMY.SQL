@@ -1,4 +1,4 @@
-﻿CREATE DATABASE SalesOrdersModify;
+CREATE DATABASE SalesOrdersModify;
 
 use SalesOrdersModify;
 
