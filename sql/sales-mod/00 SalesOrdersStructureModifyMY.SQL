@@ -4,12 +4,12 @@ CREATE DATABASE "SalesOrdersModify";
 \connect "SalesOrdersModify"
 
 CREATE TABLE Categories (
-	CategoryID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	CategoryID serial NOT NULL PRIMARY KEY ,
 	CategoryDescription varchar(75) NULL 
 	);
 
 CREATE TABLE Customers (
-	CustomerID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	CustomerID serial NOT NULL PRIMARY KEY ,
 	CustFirstName varchar(25) NULL ,
 	CustLastName varchar(25) NULL ,
 	CustStreetAddress varchar(50) NULL ,
@@ -21,7 +21,7 @@ CREATE TABLE Customers (
 	);
 
 CREATE TABLE Employees (
-	EmployeeID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	EmployeeID serial NOT NULL PRIMARY KEY ,
 	EmpFirstName varchar(25) NULL ,
 	EmpLastName varchar(25) NULL ,
 	EmpStreetAddress varchar(50) NULL ,
@@ -47,7 +47,7 @@ CREATE TABLE Order_Details_Archive (
 );
 
 CREATE TABLE Orders (
-	OrderNumber int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	OrderNumber serial NOT NULL PRIMARY KEY ,
 	OrderDate date NULL ,
 	ShipDate date NULL ,
 	CustomerID int NULL DEFAULT 0 ,
@@ -73,7 +73,7 @@ CREATE TABLE Product_Vendors (
 	);
 
 CREATE TABLE Products (
-	ProductNumber int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	ProductNumber serial NOT NULL PRIMARY KEY ,
 	ProductName varchar(50) NULL ,
 	ProductDescription varchar(100) NULL ,
 	RetailPrice decimal (15,2) NULL DEFAULT 0 ,
@@ -82,7 +82,7 @@ CREATE TABLE Products (
 	);
 
 CREATE TABLE Vendors (
-	VendorID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	VendorID serial NOT NULL PRIMARY KEY ,
 	VendName varchar(25) NULL ,
 	VendStreetAddress varchar(50) NULL ,
 	VendCity varchar(30) NULL ,

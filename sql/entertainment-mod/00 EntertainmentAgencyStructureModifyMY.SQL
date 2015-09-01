@@ -4,7 +4,7 @@ CREATE DATABASE "EntertainmentAgencyModify";
 \connect "EntertainmentAgencyModify"
 
 CREATE TABLE Agents (
-        AgentID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        AgentID serial NOT NULL PRIMARY KEY,
         AgtFirstName varchar(25) NULL ,
         AgtLastName varchar(25) NULL ,
         AgtStreetAddress varchar(50) NULL ,
@@ -18,7 +18,7 @@ CREATE TABLE Agents (
 );
 
 CREATE TABLE Customers (
-	CustomerID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	CustomerID serial NOT NULL PRIMARY KEY,
 	CustFirstName varchar(25) NULL ,
 	CustLastName varchar(25) NULL ,
 	CustStreetAddress varchar(50) NULL ,
@@ -29,7 +29,7 @@ CREATE TABLE Customers (
 );
 
 CREATE TABLE Engagements (
-	EngagementNumber int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	EngagementNumber serial NOT NULL PRIMARY KEY,
 	StartDate date NULL ,
 	EndDate date NULL ,
 	StartTime time NULL ,
@@ -64,7 +64,7 @@ CREATE TABLE Entertainer_Styles (
 );
 
 CREATE TABLE Entertainers (
-	EntertainerID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	EntertainerID serial NOT NULL PRIMARY KEY,
 	EntStageName varchar(50) NULL ,
 	EntSSN varchar(12) NULL ,
 	EntStreetAddress varchar(50) NULL ,
@@ -79,7 +79,7 @@ CREATE TABLE Entertainers (
 );
 
 CREATE TABLE Members (
-	MemberID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	MemberID serial NOT NULL PRIMARY KEY,
 	MbrFirstName varchar(25) NULL ,
 	MbrLastName varchar(25) NULL ,
 	MbrPhoneNumber varchar(15) NULL ,
@@ -92,7 +92,7 @@ CREATE TABLE Musical_Preferences (
 );
 
 CREATE TABLE Musical_Styles (
-	StyleID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	StyleID serial NOT NULL PRIMARY KEY,
 	StyleName varchar(75) NULL 
 );
 

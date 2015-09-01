@@ -22,7 +22,7 @@ CREATE TABLE Bowler_Scores_Archive (
 );
 
 CREATE TABLE Bowlers (
-	BowlerID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	BowlerID serial NOT NULL PRIMARY KEY ,
 	BowlerLastName varchar(50) NULL ,
 	BowlerFirstName varchar(50) NULL ,
 	BowlerMiddleInit varchar(1) NULL ,
@@ -51,13 +51,13 @@ CREATE TABLE Match_Games_Archive (
 );
 
 CREATE TABLE Teams (
-	TeamID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	TeamID serial NOT NULL PRIMARY KEY ,
 	TeamName varchar(50) NOT NULL ,
 	CaptainID int NULL 
 );
 
 CREATE TABLE Tournaments (
-	TourneyID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	TourneyID serial NOT NULL PRIMARY KEY ,
 	TourneyDate date NULL ,
 	TourneyLocation varchar(50) NULL 
 );
@@ -69,7 +69,7 @@ CREATE TABLE Tournaments_Archive (
 );
 
 CREATE TABLE Tourney_Matches (
-	MatchID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	MatchID serial NOT NULL PRIMARY KEY ,
 	TourneyID int NULL DEFAULT 0 ,
 	Lanes varchar(5) NULL ,
 	OddLaneTeamID int NULL DEFAULT 0 ,

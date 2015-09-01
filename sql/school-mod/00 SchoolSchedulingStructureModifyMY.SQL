@@ -18,13 +18,13 @@ CREATE TABLE Categories (
 );
 
 CREATE TABLE Class_Rooms (
-	ClassRoomID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	ClassRoomID serial NOT NULL PRIMARY KEY ,
 	BuildingCode varchar(3) NULL ,
 	PhoneAvailable smallint NOT NULL DEFAULT 0 
 );
 
 CREATE TABLE Classes (
-	ClassID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	ClassID serial NOT NULL PRIMARY KEY ,
 	SubjectID int NULL DEFAULT 0 ,
 	ClassRoomID int NULL DEFAULT 0 ,
 	Credits smallint NULL DEFAULT 0 ,
@@ -40,7 +40,7 @@ CREATE TABLE Classes (
 );
 
 CREATE TABLE Departments (
-	DepartmentID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	DepartmentID serial NOT NULL PRIMARY KEY ,
 	DeptName varchar(50) NULL ,
 	DeptChair int NULL DEFAULT 0 
 );
@@ -74,7 +74,7 @@ CREATE TABLE Majors (
         );
 
 CREATE TABLE Staff (
-	StaffID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	StaffID serial NOT NULL PRIMARY KEY ,
 	StfFirstName varchar(25) NULL ,
 	StfLastname varchar(25) NULL ,
 	StfStreetAddress varchar(50) NULL ,
@@ -89,7 +89,7 @@ CREATE TABLE Staff (
 );
 
 CREATE TABLE Student_Class_Status (
-	ClassStatus int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	ClassStatus serial NOT NULL PRIMARY KEY ,
 	ClassStatusDescription varchar(50) NULL 
 );
 
@@ -101,7 +101,7 @@ CREATE TABLE Student_Schedules (
 );
 
 CREATE TABLE Students (
-	StudentID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	StudentID serial NOT NULL PRIMARY KEY ,
 	StudFirstName varchar(25) NULL ,
 	StudLastName varchar(25) NULL ,
 	StudStreetAddress varchar(50) NULL ,
@@ -115,7 +115,7 @@ CREATE TABLE Students (
 );
 
 CREATE TABLE Subjects (
-	SubjectID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	SubjectID serial NOT NULL PRIMARY KEY ,
 	CategoryID varchar(10) NULL ,
 	SubjectCode varchar(8) NULL ,
 	SubjectName varchar(50) NULL ,
