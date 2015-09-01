@@ -1,20 +1,25 @@
 \connect "BowlingLeagueModify"
 
-CREATE PROCEDURE CH15_Calc_Bowler_Pins_Avg_Hcp()
+CREATE FUNCTION CH15_Calc_Bowler_Pins_Avg_Hcp()
+RETURNS void AS $$
 UPDATE    Bowlers
 SET              BowlerTotalPins =
                           (SELECT     SUM(RawScore)
                             FROM          Bowler_Scores
-                            WHERE      Bowler_Scores.BowlerID = Bowlers.BowlerID), BowlerGamesBowled =
+                            WHERE      Bowler_Scores.BowlerID = Bowlers.BowlerID),
+                 BowlerGamesBowled =
                           (SELECT     COUNT(Bowler_Scores.RawScore)
                             FROM          Bowler_Scores
-                            WHERE      Bowler_Scores.BowlerID = Bowlers.BowlerID), BowlerCurrentAverage =
+                            WHERE      Bowler_Scores.BowlerID = Bowlers.BowlerID),
+                 BowlerCurrentAverage =
                           Coalesce((SELECT     Round(AVG(Bowler_Scores.RawScore), 0)
                             FROM          Bowler_Scores
-                            WHERE      Bowler_Scores.BowlerID = Bowlers.BowlerID), 0), BowlerCurrentHcp =
+                            WHERE      Bowler_Scores.BowlerID = Bowlers.BowlerID), 0),
+                 BowlerCurrentHcp =
                           Coalesce((SELECT     Round(0.9 * (200 - Round(AVG(Bowler_Scores.RawScore), 0)), 0)
                             FROM          Bowler_Scores
                             WHERE      Bowler_Scores.BowlerID = Bowlers.BowlerID), 0);
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH15_Calc_Bowler_Pins_Avg_Hcp_Query
 AS 
@@ -37,10 +42,12 @@ AS NewBowlerCurrentAverage, Bowlers.BowlerCurrentHcp,
 AS NewBowlerCurrentHcp
 FROM Bowlers;
 
-CREATE PROCEDURE CH15_Change_Huckleberry_Name()
+CREATE FUNCTION CH15_Change_Huckleberry_Name()
+RETURNS void AS $$
 UPDATE    Teams
 SET              TeamName = 'Manta Rays'
 WHERE     (TeamName = 'Huckleberrys');
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH15_Change_Huckleberry_Name_Query
 AS 
@@ -48,10 +55,12 @@ SELECT Teams.TeamName, 'Manta Rays' AS NewTeamName
 FROM Teams
 WHERE Teams.TeamName = 'Huckleberrys';
 
-CREATE PROCEDURE CH15_Change_Tourney_Location()
+CREATE FUNCTION CH15_Change_Tourney_Location()
+RETURNS void AS $$
 UPDATE    Tournaments
 SET              TourneyLocation = 'Oasis Lanes'
 WHERE     (TourneyLocation = 'Sports World Lanes');
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH15_Change_Tourney_Location_Query
 AS 
@@ -59,7 +68,8 @@ SELECT Tournaments.TourneyID, Tournaments.TourneyLocation, 'Oasis Lanes' AS NewT
 FROM Tournaments
 WHERE (Tournaments.TourneyLocation = 'Sports World Lanes');
 
-CREATE PROCEDURE CH15_Update_Bowler_City_State()
+CREATE FUNCTION CH15_Update_Bowler_City_State()
+RETURNS void AS $$
 UPDATE    Bowlers
 SET              BowlerCity =
                           (SELECT     City
@@ -72,10 +82,11 @@ WHERE     (BowlerCity <>
                           (SELECT     City
                             FROM          WAZips
                             WHERE      Bowlers.BowlerZip = WAZips.ZIP)) OR
-                      (BowlerState <>
+          (BowlerState <>
                           (SELECT     State
                             FROM          WAZips
                             WHERE      Bowlers.BowlerZip = WAZips.ZIP));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH15_Update_Bowler_City_State_Query
 AS 
@@ -96,13 +107,15 @@ WHERE     (BowlerCity <>
                             FROM          WAZips
                             WHERE      Bowlers.BowlerZip = WAZips.ZIP));
 
-CREATE PROCEDURE CH16_Add_Bowler()
+CREATE FUNCTION CH16_Add_Bowler()
+RETURNS void AS $$
 INSERT INTO Bowlers
                       (BowlerLastName, BowlerFirstName, BowlerAddress, BowlerCity, BowlerState, BowlerZip, BowlerPhoneNumber, TeamID, BowlerTotalPins, 
                       BowlerGamesBowled, BowlerCurrentAverage, BowlerCurrentHcp)
 SELECT     BowlerLastName, 'Matthew' AS BowlerFirstName, BowlerAddress, BowlerCity, BowlerState, BowlerZip, BowlerPhoneNumber, TeamID, 0 AS BowlerTotalPins, 0 AS BowlerGamesBowled, 0 AS BolwerCurrentAverage, 0 AS BowlerCurrentHcp
 FROM         Bowlers
 WHERE     (BowlerLastName = 'Patterson') AND (BowlerFirstName = 'Neil');
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH16_Add_Bowler_Query
 AS 
@@ -110,10 +123,12 @@ SELECT Bowlers.BowlerLastName, 'Matthew' AS BowlerFirstName, Bowlers.BowlerAddre
 FROM Bowlers
 WHERE (((Bowlers.BowlerLastName)='Patterson') AND ((Bowlers.BowlerFirstName)='Neil'));
 
-CREATE PROCEDURE CH16_Add_Team()
+CREATE FUNCTION CH16_Add_Team()
+RETURNS void AS $$
 INSERT INTO Teams
                       (TeamName, CaptainID)
 VALUES     ('Aardvarks', NULL);
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH16_Add_Team_Query
 AS
@@ -121,11 +136,13 @@ SELECT 'Aardvarks' As TeamName, Null As CaptainID
 FROM Teams
 WHERE TeamID = 1;
 
-CREATE PROCEDURE CH16_Archive_2012_Tournaments_1()
+CREATE FUNCTION CH16_Archive_2012_Tournaments_1()
+RETURNS void AS $$
 INSERT INTO Tournaments_Archive
 SELECT     TourneyID, TourneyDate, TourneyLocation
 FROM         Tournaments
 WHERE     (TourneyDate BETWEEN CAST('2012-01-01' AS Date)  AND CAST('2012-12-31' AS Date) );
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH16_Archive_2012_Tournaments_1_Query
 AS 
@@ -133,7 +150,8 @@ SELECT     TourneyID, TourneyDate, TourneyLocation
 FROM         Tournaments
 WHERE     (TourneyDate BETWEEN CAST('2012-01-01' AS Date)  AND CAST('2012-12-31' AS Date) );
 
-CREATE PROCEDURE CH16_Archive_2012_Tournaments_2()
+CREATE FUNCTION CH16_Archive_2012_Tournaments_2()
+RETURNS void AS $$
 INSERT INTO Tourney_Matches_Archive
 SELECT     MatchID, TourneyID, Lanes, OddLaneTeamID, EvenLaneTeamID
 FROM         Tourney_Matches
@@ -141,6 +159,7 @@ WHERE     (TourneyID IN
                           (SELECT     TourneyID
                             FROM          Tournaments
                             WHERE      TourneyDate BETWEEN CAST('2012-01-01' AS Date)  AND CAST('2012-12-31' AS Date) ));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH16_Archive_2012_Tournaments_2_Query
 AS 
@@ -151,7 +170,8 @@ WHERE     (TourneyID IN
                             FROM          Tournaments
                             WHERE      TourneyDate BETWEEN CAST('2012-01-01' AS Date)  AND CAST('2012-12-31' AS Date) ));
 
-CREATE PROCEDURE CH16_Archive_2012_Tournaments_3()
+CREATE FUNCTION CH16_Archive_2012_Tournaments_3()
+RETURNS void AS $$
 INSERT INTO Match_Games_Archive
 SELECT     MatchID, GameNumber, NULL AS WinTeam
 FROM         Match_Games
@@ -160,6 +180,7 @@ WHERE     (MatchID IN
                             FROM          Tourney_Matches INNER JOIN
                                                    Tournaments ON Tournaments.TourneyID = Tourney_Matches.TourneyID
                             WHERE      Tournaments.TourneyDate BETWEEN CAST('2012-01-01' AS Date)  AND CAST('2012-12-31' AS Date) ));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH16_Archive_2012_Tournaments_3_Query
 AS 
@@ -171,7 +192,8 @@ WHERE     (MatchID IN
                                                    Tournaments ON Tournaments.TourneyID = Tourney_Matches.TourneyID
                             WHERE      Tournaments.TourneyDate BETWEEN CAST('2012-01-01' AS Date)  AND CAST('2012-12-31' AS Date) ));
 
-CREATE PROCEDURE CH16_Archive_2012_Tournaments_4()
+CREATE FUNCTION CH16_Archive_2012_Tournaments_4()
+RETURNS void AS $$
 INSERT INTO Bowler_Scores_Archive
 SELECT     MatchID, GameNumber, BowlerID, RawScore, HandiCapScore, WonGame
 FROM         Bowler_Scores
@@ -180,6 +202,7 @@ WHERE     (MatchID IN
                             FROM          Tourney_Matches INNER JOIN
                                                    Tournaments ON Tournaments.TourneyID = Tourney_Matches.TourneyID
                             WHERE      Tournaments.TourneyDate BETWEEN CAST('2012-01-01' AS Date)  AND CAST('2012-12-31' AS Date) ));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH16_Archive_2012_Tournaments_4_Query
 AS 
@@ -191,12 +214,14 @@ WHERE     (MatchID IN
                                                    Tournaments ON Tournaments.TourneyID = Tourney_Matches.TourneyID
                             WHERE      Tournaments.TourneyDate BETWEEN CAST('2012-01-01' AS Date)  AND CAST('2012-12-31' AS Date) ));
 
-CREATE PROCEDURE CH16_Copy_2012_Tournaments_1()
+CREATE FUNCTION CH16_Copy_2012_Tournaments_1()
+RETURNS void AS $$
 INSERT INTO Tournaments
                       (TourneyID, TourneyDate, TourneyLocation)
 SELECT     TourneyID + 25 AS NewTourneyID, (TourneyDate + Interval '728 days') AS NewTourneyDate, TourneyLocation
 FROM         Tournaments
 WHERE     (TourneyDate BETWEEN CAST('2012-01-01' AS Date)  AND CAST('2012-12-31' AS Date) );
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH16_Copy_2012_Tournaments_1_Query
 AS 
@@ -204,22 +229,26 @@ SELECT     TourneyID + 25 AS NewTourneyID, (TourneyDate + Interval '728 days') A
 FROM         Tournaments
 WHERE     (TourneyDate BETWEEN CAST('2012-01-01' AS Date)  AND CAST('2012-12-31' AS Date) );
 
-CREATE PROCEDURE CH16_Copy_2012_Tournaments_2()
+CREATE FUNCTION CH16_Copy_2012_Tournaments_2()
+RETURNS void AS $$
 INSERT INTO Tourney_Matches
                       (TourneyID, Lanes, OddLaneTeamID, EvenLaneTeamID)
 SELECT     TourneyID + 25 AS NewTourneyID, Lanes, OddLaneTeamID, EvenLaneTeamID
 FROM         Tourney_Matches;
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH16_Copy_2012_Tournaments_2_Query
 AS 
 SELECT     MatchID, TourneyID + 25 AS NewTourneyID, Lanes, OddLaneTeamID, EvenLaneTeamID
 FROM         Tourney_Matches;
 
-CREATE PROCEDURE CH17_Delete_Archived_2012_Tournaments_1()
+CREATE FUNCTION CH17_Delete_Archived_2012_Tournaments_1()
+RETURNS void AS $$
 DELETE FROM Bowler_Scores
 WHERE     (MatchID IN
                           (SELECT     Tourney_Matches_Archive.MatchID
                             FROM          Tourney_Matches_Archive));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH17_Delete_Archived_2012_Tournaments_1_Query
 AS 
@@ -228,13 +257,15 @@ WHERE     (MatchID IN
                           (SELECT     Tourney_Matches_Archive.MatchID
                             FROM          Tourney_Matches_Archive));
 
-CREATE PROCEDURE CH17_Delete_Archived_2012_Tournaments_1_WRONG()
+CREATE FUNCTION CH17_Delete_Archived_2012_Tournaments_1_WRONG()
+RETURNS void AS $$
 DELETE FROM Bowler_Scores
 WHERE     (MatchID IN
                           (SELECT     Tourney_Matches.MatchID
                             FROM          Tourney_Matches INNER JOIN
                                                    Tournaments ON Tournaments.TourneyID = Tourney_Matches.TourneyID
                             WHERE      Tournaments.TourneyDate BETWEEN CAST('2012-01-01' AS Date)  AND CAST('2012-12-31' AS Date) ));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH17_Delete_Archived_2012_Tournaments_1_WRONG_Query
 AS 
@@ -245,11 +276,13 @@ WHERE     (MatchID IN
                                                    Tournaments ON Tournaments.TourneyID = Tourney_Matches.TourneyID
                             WHERE      Tournaments.TourneyDate BETWEEN CAST('2012-01-01' AS Date)  AND CAST('2012-12-31' AS Date) ));
 
-CREATE PROCEDURE CH17_Delete_Archived_2012_Tournaments_2()
+CREATE FUNCTION CH17_Delete_Archived_2012_Tournaments_2()
+RETURNS void AS $$
 DELETE FROM Match_Games
 WHERE     (MatchID IN
                           (SELECT     Tourney_Matches_Archive.MatchID
                             FROM          Tourney_Matches_Archive));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH17_Delete_Archived_2012_Tournaments_2_Query
 AS 
@@ -258,11 +291,13 @@ WHERE     (MatchID IN
                           (SELECT     Tourney_Matches_Archive.MatchID
                             FROM          Tourney_Matches_Archive));
 
-CREATE PROCEDURE CH17_Delete_Archived_2012_Tournaments_3()
+CREATE FUNCTION CH17_Delete_Archived_2012_Tournaments_3()
+RETURNS void AS $$
 DELETE FROM Tourney_Matches
 WHERE     (MatchID IN
                           (SELECT     MatchID
                             FROM          Tourney_Matches_Archive));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH17_Delete_Archived_2012_Tournaments_3_Query
 AS 
@@ -271,11 +306,13 @@ WHERE     (MatchID IN
                           (SELECT     MatchID
                             FROM          Tourney_Matches_Archive));
 
-CREATE PROCEDURE CH17_Delete_Archived_2012_Tournaments_4()
+CREATE FUNCTION CH17_Delete_Archived_2012_Tournaments_4()
+RETURNS void AS $$
 DELETE FROM Tournaments
 WHERE     (TourneyID IN
                           (SELECT     Tournaments_Archive.TourneyID
                             FROM          Tournaments_Archive));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH17_Delete_Archived_2012_Tournaments_4_Query
 AS 
@@ -284,20 +321,24 @@ WHERE     (TourneyID IN
                           (SELECT     Tournaments_Archive.TourneyID
                             FROM          Tournaments_Archive));
 
-CREATE PROCEDURE CH17_Delete_Bowlers_No_Games()
+CREATE FUNCTION CH17_Delete_Bowlers_No_Games()
+RETURNS void AS $$
 DELETE FROM Bowlers
 WHERE     (BowlerGamesBowled = 0);
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH17_Delete_Bowlers_No_Games_Query
 AS 
 SELECT * FROM Bowlers
 WHERE     (BowlerGamesBowled = 0);
 
-CREATE PROCEDURE CH17_Delete_Bowlers_No_Games_Safe()
+CREATE FUNCTION CH17_Delete_Bowlers_No_Games_Safe()
+RETURNS void AS $$
 DELETE FROM Bowlers
 WHERE     (BowlerID NOT IN
                           (SELECT     BowlerID
                             FROM          Bowler_Scores));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH17_Delete_Bowlers_No_Games_Safe_Query
 AS 
@@ -306,11 +347,13 @@ WHERE     (BowlerID NOT IN
                           (SELECT     BowlerID
                             FROM          Bowler_Scores));
 
-CREATE PROCEDURE CH17_Delete_Matches_Not_Played()
+CREATE FUNCTION CH17_Delete_Matches_Not_Played()
+RETURNS void AS $$
 DELETE FROM Tourney_Matches
 WHERE     (MatchID NOT IN
                           (SELECT     MatchID
                             FROM          Bowler_Scores));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH17_Delete_Matches_Not_Played_Query
 AS 
@@ -319,11 +362,13 @@ WHERE     (MatchID NOT IN
                           (SELECT     MatchID
                             FROM          Bowler_Scores));
 
-CREATE PROCEDURE CH17_Delete_Teams_No_Bowlers()
+CREATE FUNCTION CH17_Delete_Teams_No_Bowlers()
+RETURNS void AS $$
 DELETE FROM Teams
 WHERE     (TeamID NOT IN
                           (SELECT     TeamID
                             FROM          Bowlers));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH17_Delete_Teams_No_Bowlers_Query
 AS 

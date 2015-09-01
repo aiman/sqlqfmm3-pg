@@ -1,11 +1,13 @@
 \connect "EntertainmentAgencyModify"
 
-CREATE PROCEDURE CH15_Calculate_Entertainment_ContractPrice()
+CREATE FUNCTION CH15_Calculate_Entertainment_ContractPrice()
+RETURNS void AS $$
 UPDATE  Engagements
 SET        ContractPrice = ROUND(1.15 * (EndDate - StartDate + 1) *
              (SELECT     EntPricePerDay
               FROM          Entertainers
               WHERE      Entertainers.EntertainerID = Engagements.EntertainerID), 0);
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH15_Calculate_Entertainment_ContractPrice_Query
 AS 
@@ -16,10 +18,8 @@ SELECT EngagementNumber, StartDate, EndDate, ContractPrice, ROUND(1.15 * (EndDat
 AS NewContractPrice, EntertainerID
 FROM Engagements;
 
-/* MySQL doesn't like it when you reference the target table in a subquery in the WHERE clause
-  in the following procedure.
-The correct ANSI-SQL is:
-CREATE PROCEDURE CH15_Discount_Good_Customers_October()
+CREATE FUNCTION CH15_Discount_Good_Customers_October()
+RETURNS void AS $$
 UPDATE    Engagements
 SET              ContractPrice = ROUND(ContractPrice * 0.98, 0)
 WHERE     (CustomerID IN
@@ -29,34 +29,7 @@ WHERE     (CustomerID IN
                  AND (Engagements.EndDate >= CAST('2012-10-1' AS Date))
                GROUP BY Engagements.CustomerID
                HAVING      SUM(Engagements.ContractPrice) > 3000));
-
-The following procedure gets around this limitation.  */
-DELIMITER //
-CREATE PROCEDURE CH15_Discount_Good_Customers_October()
-BEGIN
-   DROP TEMPORARY TABLE IF EXISTS zzCustomers;
-
-   CREATE TEMPORARY Table zzCustomers (
-	CustomerID int NOT NULL PRIMARY KEY);
-
-   INSERT INTO zzCustomers
-   SELECT     Engagements.CustomerID
-   FROM          Engagements
-   WHERE      (Engagements.StartDate <= CAST('2012-10-31' AS Date)) 
-              AND (Engagements.EndDate >= CAST('2012-10-1' AS Date))
-   GROUP BY Engagements.CustomerID
-   HAVING      SUM(Engagements.ContractPrice) > 3000;
-
-   UPDATE    Engagements
-   SET              ContractPrice = ROUND(ContractPrice * 0.98, 0)
-   WHERE     CustomerID IN
-         (SELECT CustomerID FROM zzCustomers)
-   LIMIT 5000;
-
-END
-//
-DELIMITER ;
-
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH15_Discount_Good_Customers_October_Query
 AS
@@ -70,16 +43,19 @@ WHERE     (CustomerID IN
                GROUP BY Engagements.CustomerID
                HAVING      SUM(Engagements.ContractPrice) > 3000)) ;
 
-CREATE PROCEDURE CH15_Give_Agents_6Percent_Raise()
+CREATE FUNCTION CH15_Give_Agents_6Percent_Raise()
+RETURNS void AS $$
 UPDATE    Agents
 SET          Salary = ROUND(Salary * 1.06, 0);
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH15_Give_Agents_6Percent_Raise_Query
 AS 
 SELECT         AgentID, AgtFirstName, AgtLastName, Salary, ROUND(Salary * 1.06, 0) As NewSalary 
 FROM    Agents;
 
-CREATE PROCEDURE CH15_Reward_Good_Agents()
+CREATE FUNCTION CH15_Reward_Good_Agents()
+RETURNS void AS $$
 UPDATE    Agents
 SET          CommissionRate = CommissionRate + 0.005
 WHERE     (AgentID IN
@@ -87,6 +63,7 @@ WHERE     (AgentID IN
              FROM          Engagements
              GROUP BY AgentID
              HAVING      SUM(ContractPrice) > 20000));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH15_Reward_Good_Agents_Query
 AS 
@@ -98,10 +75,12 @@ WHERE     (AgentID IN
              GROUP BY AgentID
              HAVING      SUM(ContractPrice) > 20000));
 
-CREATE PROCEDURE CH16_Add_Customer()
+CREATE FUNCTION CH16_Add_Customer()
+RETURNS void AS $$
 INSERT INTO Customers
                       (CustFirstName, CustLastName, CustStreetAddress, CustCity, CustState, CustZipCode, CustPhoneNumber)
 VALUES     ('Kendra', 'Hernandez', '457 211th St NE', 'Bothell', 'WA', '98200', '555-3945');
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH16_Add_Customer_Query
 AS 
@@ -109,7 +88,8 @@ SELECT 'Kendra' As CustFirstName, 'Hernandez' As CustLastName, '457 211th St NE'
 FROM Customers
 WHERE CustomerID = 10001;
 
-CREATE PROCEDURE CH16_Add_Engagement()
+CREATE FUNCTION CH16_Add_Engagement()
+RETURNS void AS $$
 INSERT INTO Engagements
                       (CustomerID, EntertainerID, StartDate, EndDate, StartTime, StopTime, ContractPrice, AgentID)
 SELECT     Customers.CustomerID, Entertainers.EntertainerID, '2013-8-15' AS StartDate, '2013-8-16' AS EndDate, '19:00:00' AS StartTime, '23:00:00' AS StopTime, 
@@ -119,6 +99,7 @@ FROM         Customers CROSS JOIN
                       Agents
 WHERE     (Customers.CustFirstName = 'Matt') AND (Customers.CustLastName = 'Berg') AND (Entertainers.EntStageName = 'Jazz Persuasion') AND 
                       (Agents.AgtFirstName = 'Karen') AND (Agents.AgtLastName = 'Smith');
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH16_Add_Engagement_Query
 AS 
@@ -130,10 +111,12 @@ FROM         Customers CROSS JOIN
 WHERE     (Customers.CustFirstName = 'Matt') AND (Customers.CustLastName = 'Berg') AND (Entertainers.EntStageName = 'Jazz Persuasion') AND 
                       (Agents.AgtFirstName = 'Karen') AND (Agents.AgtLastName = 'Smith');
 
-CREATE PROCEDURE CH16_Add_Style()
+CREATE FUNCTION CH16_Add_Style()
+RETURNS void AS $$
 INSERT INTO Musical_Styles
                       (StyleName)
 VALUES     ('New Age');
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH16_Add_Style_Query
 AS
@@ -141,7 +124,8 @@ SELECT 'New Age' As StyeName
 FROM Musical_Styles
 WHERE StyleID = 1;
 
-CREATE PROCEDURE CH16_Archive_Engagements()
+CREATE FUNCTION CH16_Archive_Engagements()
+RETURNS void AS $$
 INSERT INTO Engagements_Archive 
          (EngagementNumber, StartDate, EndDate, StartTime, StopTime, ContractPrice, 
           CustomerID, AgentID, EntertainerID) 
@@ -150,6 +134,7 @@ Engagements.StartTime, Engagements.StopTime, Engagements.ContractPrice, Engageme
 Engagements.AgentID, Engagements.EntertainerID
 FROM Engagements
 WHERE Engagements.EndDate < CAST('2013-01-01' AS Date);
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH16_Archive_Engagements_Query
 AS 
@@ -159,12 +144,14 @@ Engagements.AgentID, Engagements.EntertainerID
 FROM Engagements
 WHERE Engagements.EndDate < CAST('2013-01-01' AS Date);
 
-CREATE PROCEDURE CH16_Copy_Agent_To_Customer()
+CREATE FUNCTION CH16_Copy_Agent_To_Customer()
+RETURNS void AS $$
 INSERT INTO Customers
                       (CustFirstName, CustLastName, CustStreetAddress, CustCity, CustState, CustZipCode, CustPhoneNumber)
 SELECT     AgtFirstName, AgtLastName, AgtStreetAddress, AgtCity, AgtState, AgtZipCode, AgtPhoneNumber
 FROM         Agents
 WHERE     (AgtFirstName = 'Marianne') AND (AgtLastName = 'Wier');
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH16_Copy_Agent_To_Customer_Query
 AS 
@@ -172,7 +159,8 @@ SELECT     AgtFirstName, AgtLastName, AgtStreetAddress, AgtCity, AgtState, AgtZi
 FROM         Agents
 WHERE     (AgtFirstName = 'Marianne') AND (AgtLastName = 'Wier');
 
-CREATE PROCEDURE CH16_Duplicate_Engagement()
+CREATE FUNCTION CH16_Duplicate_Engagement()
+RETURNS void AS $$
 INSERT INTO Engagements
                       (StartDate, EndDate, StartTime, StopTime, ContractPrice, CustomerID, AgentID, EntertainerID)
 SELECT     '2013-08-01' AS StartDate, '2013-08-04' AS EndDate, Engagements.StartTime, Engagements.StopTime, Engagements.ContractPrice, 
@@ -180,6 +168,7 @@ SELECT     '2013-08-01' AS StartDate, '2013-08-04' AS EndDate, Engagements.Start
 FROM         Customers INNER JOIN
                       Engagements ON Customers.CustomerID = Engagements.CustomerID
 WHERE     (Customers.CustFirstName = 'Doris') AND (Customers.CustLastName = 'Hartwig') AND (Engagements.StartDate = CAST('2012-12-01' AS Date));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH16_Duplicate_Engagement_Query
 AS 
@@ -189,11 +178,13 @@ FROM         Customers INNER JOIN
                       Engagements ON Customers.CustomerID = Engagements.CustomerID
 WHERE     (Customers.CustFirstName = 'Doris') AND (Customers.CustLastName = 'Hartwig') AND (Engagements.StartDate = CAST('2012-12-01' AS Date));
 
-CREATE PROCEDURE CH17_Delete_Customers_Never_Booked()
+CREATE FUNCTION CH17_Delete_Customers_Never_Booked()
+RETURNS void AS $$
 DELETE FROM Customers
 WHERE     (CustomerID NOT IN
                           (SELECT     CustomerID
                             FROM          Engagements));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH17_Delete_Customers_Never_Booked_Query
 AS 
@@ -203,11 +194,13 @@ WHERE     (CustomerID NOT IN
                           (SELECT     CustomerID
                             FROM          Engagements));
 
-CREATE PROCEDURE CH17_Delete_Entertainers_Not_Booked1()
+CREATE FUNCTION CH17_Delete_Entertainers_Not_Booked1()
+RETURNS void AS $$
 DELETE FROM Entertainer_Members
 WHERE     (EntertainerID NOT IN
                           (SELECT     EntertainerID
                             FROM          Engagements));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH17_Delete_Entertainers_Not_Booked1_Query
 AS 
@@ -217,11 +210,13 @@ WHERE     (EntertainerID NOT IN
                           (SELECT     EntertainerID
                             FROM          Engagements));
 
-CREATE PROCEDURE CH17_Delete_Entertainers_Not_Booked2()
+CREATE FUNCTION CH17_Delete_Entertainers_Not_Booked2()
+RETURNS void AS $$
 DELETE FROM Entertainers
 WHERE     (EntertainerID NOT IN
                           (SELECT     EntertainerID
                             FROM          Engagements));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH17_Delete_Entertainers_Not_Booked2_Query
 AS 
@@ -231,11 +226,13 @@ WHERE     (EntertainerID NOT IN
                           (SELECT     EntertainerID
                             FROM          Engagements));
 
-CREATE PROCEDURE CH17_Delete_Members_Not_In_Group()
+CREATE FUNCTION CH17_Delete_Members_Not_In_Group()
+RETURNS void AS $$
 DELETE FROM Members
 WHERE     (MemberID NOT IN
                           (SELECT     MemberID
                             FROM          Entertainer_Members));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH17_Delete_Members_Not_In_Group_Query
 AS 
@@ -245,7 +242,8 @@ WHERE     (MemberID NOT IN
                           (SELECT     MemberID
                             FROM          Entertainer_Members));
 
-CREATE PROCEDURE CH17_Delete_Styles_No_Entertainer()
+CREATE FUNCTION CH17_Delete_Styles_No_Entertainer()
+RETURNS void AS $$
 DELETE FROM Musical_Styles
 WHERE (StyleID NOT IN 
        (SELECT StyleID 
@@ -253,6 +251,7 @@ WHERE (StyleID NOT IN
   AND (StyleID NOT IN
        (SELECT StyleID 
         FROM Musical_Preferences));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH17_Delete_Styles_No_Entertainer_Query
 AS 
@@ -265,11 +264,13 @@ WHERE     (StyleID NOT IN
                           (SELECT     StyleID
                             FROM          Musical_Preferences));
 
-CREATE PROCEDURE CH17_Delete_Styles_No_Entertainer_Wrong()
+CREATE FUNCTION CH17_Delete_Styles_No_Entertainer_Wrong()
+RETURNS void AS $$
 DELETE FROM Musical_Styles
 WHERE     (StyleID NOT IN
                           (SELECT     StyleID
                             FROM          Entertainer_Styles));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH17_Delete_Styles_No_Entertainer_Wrong_Query
 AS 
@@ -279,11 +280,13 @@ WHERE     (StyleID NOT IN
                           (SELECT     StyleID
                             FROM          Entertainer_Styles));
 
-CREATE PROCEDURE CH17_Remove_Archived_Engagements()
+CREATE FUNCTION CH17_Remove_Archived_Engagements()
+RETURNS void AS $$
 DELETE FROM Engagements
 WHERE     (EngagementNumber IN
                           (SELECT     EngagementNumber
                             FROM          Engagements_Archive));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH17_Remove_Archived_Engagements_Query
 AS 

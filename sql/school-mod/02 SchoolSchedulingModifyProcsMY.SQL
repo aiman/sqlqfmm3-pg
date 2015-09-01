@@ -1,9 +1,11 @@
 \connect "SchoolSchedulingModify"
 
-CREATE PROCEDURE CH15_Fix_Staff_AreaCode()
+CREATE FUNCTION CH15_Fix_Staff_AreaCode()
+RETURNS void AS $$
 UPDATE    Staff
 SET              StfAreaCode = '360'
 WHERE     (StfZipCode IN ('98270', '98271'));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH15_Fix_Staff_AreaCode_Query
 AS 
@@ -11,10 +13,12 @@ SELECT  StfAreaCode, '360' As NewAreaCode
 FROM    Staff
 WHERE     (StfZipCode IN ('98270', '98271'));
 
-CREATE PROCEDURE CH15_Fix_Student_AreaCode()
+CREATE FUNCTION CH15_Fix_Student_AreaCode()
+RETURNS void AS $$
 UPDATE    Students
 SET              StudAreaCode = '360'
 WHERE     (StudZipCode IN ('98270', '98271'));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH15_Fix_Student_AreaCode_Query
 AS 
@@ -22,13 +26,15 @@ SELECT  StudentID, StudFirstName, StudLastName, StudAreaCode, '360' AS NewAreaCo
 FROM    Students
 WHERE     (StudZipCode IN ('98270', '98271'));
 
-CREATE PROCEDURE CH15_Give_FullTime_Tenured_Raise()
+CREATE FUNCTION CH15_Give_FullTime_Tenured_Raise()
+RETURNS void AS $$
 UPDATE    Staff
 SET              Salary = ROUND(Salary * 1.05, 0)
 WHERE     (StaffID IN
                           (SELECT     StaffID
                             FROM          Faculty
                             WHERE      Faculty.Status = 'Full Time' AND Faculty.Tenured = 1));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH15_Give_FullTime_Tenured_Raise_Query
 AS 
@@ -39,13 +45,15 @@ WHERE     (StaffID IN
                             FROM          Faculty
                             WHERE      Faculty.Status = 'Full Time' AND Faculty.Tenured = 1));
 
-CREATE PROCEDURE CH15_Update_Student_GPA()
+CREATE FUNCTION CH15_Update_Student_GPA()
+RETURNS void AS $$
 UPDATE    Students
 SET              StudGPA =
                           Coalesce((SELECT     Round(CAST(SUM(Classes.Credits * Student_Schedules.Grade) / SUM(Classes.Credits) AS numeric), 3)
                             FROM          Classes INNER JOIN
                                                    Student_Schedules ON Classes.ClassID = Student_Schedules.ClassID
                             WHERE      (Student_Schedules.ClassStatus = 2) AND (Student_Schedules.StudentID = Students.StudentID)), 0);
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH15_Update_Student_GPA_Query
 AS 
@@ -56,11 +64,13 @@ SELECT   StudentID, StudFirstName, StudLastName, StudGPA,
                             WHERE      (Student_Schedules.ClassStatus = 2) AND (Student_Schedules.StudentID = Students.StudentID)), 0) AS NewStudGPA
 FROM    Students;
 
-CREATE PROCEDURE CH16_Add_Category()
+CREATE FUNCTION CH16_Add_Category()
+RETURNS void AS $$
 INSERT INTO Categories
 SELECT     'ITA' AS CategoryID, 'Italian' AS CategoryDescription, DepartmentID
 FROM         Departments
 WHERE     (DeptName = 'Humanities');
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH16_Add_Category_Query
 AS 
@@ -68,10 +78,12 @@ SELECT     'ITA' AS CategoryID, 'Italian' AS CategoryDescription, DepartmentID
 FROM         Departments
 WHERE     (DeptName = 'Humanities');
 
-CREATE PROCEDURE CH16_Add_New_Accounting_Class()
+CREATE FUNCTION CH16_Add_New_Accounting_Class()
+RETURNS void AS $$
 INSERT INTO Classes
                       (ClassID, SubjectID, ClassRoomID, Credits, StartDate, StartTime, Duration, TuesdaySchedule, ThursdaySchedule)
 VALUES     (6699, 4, 3315, 5, '2014-01-14', '15:00:00', 80, 1, 1);
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH16_Add_New_Accounting_Class_Query
 AS
@@ -79,12 +91,14 @@ SELECT 6699 As ClassID, 4 As SubjectID, 3315 As ClassRoomID, 5 As Credits, '2014
 FROM Classes
 WHERE ClassID = 1000;
 
-CREATE PROCEDURE CH16_Add_Student()
+CREATE FUNCTION CH16_Add_Student()
+RETURNS void AS $$
 INSERT INTO Students
                       (StudFirstName, StudLastName, StudStreetAddress, StudCity, StudState, StudZipCode, StudAreaCode, StudPhoneNumber)
 SELECT     'Angel' AS StudFirstName, StudLastName, StudStreetAddress, StudCity, StudState, StudZipCode, StudAreaCode, StudPhoneNumber
 FROM         Students
 WHERE     (StudFirstName = 'John') AND (StudLastName = 'Kennedy');
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH16_Add_Student_Query
 AS 
@@ -92,12 +106,14 @@ SELECT     'Angel' AS StudFirstName, StudLastName, StudStreetAddress, StudCity, 
 FROM         Students
 WHERE     (StudFirstName = 'John') AND (StudLastName = 'Kennedy');
 
-CREATE PROCEDURE CH16_Enroll_Staff()
+CREATE FUNCTION CH16_Enroll_Staff()
+RETURNS void AS $$
 INSERT INTO Students
                       (StudFirstName, StudLastName, StudStreetAddress, StudCity, StudState, StudZipCode, StudAreaCode, StudPhoneNumber)
 SELECT     StfFirstName, StfLastname, StfStreetAddress, StfCity, StfState, StfZipCode, StfAreaCode, StfPhoneNumber
 FROM         Staff
 WHERE     (StfFirstName = 'Tim') AND (StfLastname = 'Smith');
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH16_Enroll_Staff_Query
 AS 
@@ -105,11 +121,13 @@ SELECT     StfFirstName, StfLastname, StfStreetAddress, StfCity, StfState, StfZi
 FROM         Staff
 WHERE     (StfFirstName = 'Tim') AND (StfLastname = 'Smith');
 
-CREATE PROCEDURE CH17_Delete_Classes_No_Students_1()
+CREATE FUNCTION CH17_Delete_Classes_No_Students_1()
+RETURNS void AS $$
 DELETE FROM Faculty_Classes
 WHERE     (ClassID NOT IN
                           (SELECT     ClassID
                             FROM          Student_Schedules));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH17_Delete_Classes_No_Students_1_Query
 AS 
@@ -119,11 +137,13 @@ WHERE     (ClassID NOT IN
                           (SELECT     ClassID
                             FROM          Student_Schedules));
 
-CREATE PROCEDURE CH17_Delete_Classes_No_Students_2()
+CREATE FUNCTION CH17_Delete_Classes_No_Students_2()
+RETURNS void AS $$
 DELETE FROM Classes
 WHERE     (ClassID NOT IN
                           (SELECT     ClassID
                             FROM          Student_Schedules));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH17_Delete_Classes_No_Students_2_Query
 AS 
@@ -133,11 +153,13 @@ WHERE     (ClassID NOT IN
                           (SELECT     ClassID
                             FROM          Student_Schedules));
 
-CREATE PROCEDURE CH17_Delete_Students_No_Classes()
+CREATE FUNCTION CH17_Delete_Students_No_Classes()
+RETURNS void AS $$
 DELETE FROM Students
 WHERE     (StudentID NOT IN
                           (SELECT     StudentID
                             FROM          Student_Schedules));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH17_Delete_Students_No_Classes_Query
 AS 
@@ -147,11 +169,13 @@ WHERE     (StudentID NOT IN
                           (SELECT     StudentID
                             FROM          Student_Schedules));
 
-CREATE PROCEDURE CH17_Delete_Subjects_No_Classes_1()
+CREATE FUNCTION CH17_Delete_Subjects_No_Classes_1()
+RETURNS void AS $$
 DELETE FROM Faculty_Subjects
 WHERE     (SubjectID NOT IN
                           (SELECT     SubjectID
                             FROM          Classes));
+$$ LANGUAGE SQL;
 
 CREATE VIEW CH17_Delete_Subjects_No_Classes_1_Query
 AS 
@@ -161,11 +185,8 @@ WHERE     (SubjectID NOT IN
                           (SELECT     SubjectID
                             FROM          Classes));
 
-/* MySQL doesn't like it when you reference the target table in a subquery in the WHERE clause
-  in the following procedure.
-The correct ANSI-SQL is:
-CREATE VIEW CH17_Delete_Subjects_No_Classes_2_Query
-AS 
+CREATE FUNCTION CH17_Delete_Subjects_No_Classes_2_Query()
+RETURNS void AS $$
 DELETE FROM Subjects
 WHERE (Subjects.SubjectID Not In 
    (SELECT SubjectID FROM Classes))
@@ -173,40 +194,4 @@ AND Subjects.SubjectCode Not IN
    (SELECT SubjectPreReq FROM Subjects
     WHERE SubjectPreReq IS NOT NULL 
       AND SubjectID IN (SELECT SubjectID FROM Classes));
-
-The following procedure gets around this limitation.  */
-
-DELIMITER //
-CREATE PROCEDURE CH17_Delete_Subjects_No_Classes_2()
-BEGIN
-   DROP TEMPORARY TABLE IF EXISTS zzSubjects;
-
-   CREATE TEMPORARY TABLE zzSubjects (
-        SubjectPreReq varchar(8) NOT NULL PRIMARY KEY);
-
-   INSERT INTO zzSubjects
-   SELECT DISTINCT SubjectPreReq FROM Subjects
-    WHERE SubjectPreReq IS NOT NULL 
-      AND SubjectID IN (SELECT SubjectID FROM Classes);
-
-DELETE FROM Subjects
-WHERE (Subjects.SubjectID Not In 
-   (SELECT SubjectID FROM Classes))
-AND Subjects.SubjectCode Not IN 
-   (SELECT SubjectPreReq FROM zzSubjects)
-   LIMIT 5000;
-END
-//
-
-DELIMITER ;
-
-CREATE VIEW CH17_Delete_Subjects_No_Classes_2_Query
-AS 
-SELECT * 
-FROM Subjects
-WHERE (Subjects.SubjectID Not In 
-   (SELECT SubjectID FROM Classes))
-AND Subjects.SubjectCode Not IN 
-   (SELECT SubjectPreReq FROM Subjects
-    WHERE SubjectPreReq IS NOT NULL 
-      AND SubjectID IN (SELECT SubjectID FROM Classes));
+$$ LANGUAGE SQL;
