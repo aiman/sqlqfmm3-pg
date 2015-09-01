@@ -30,7 +30,7 @@ FROM Subjects ;
 CREATE VIEW CH05_Length_Of_Service
 AS
 SELECT  Concat(StfLastname, ', ', StfFirstName) AS StaffName, DateHired,
-   TRUNCATE(((CAST('2012-10-1' As Date) - DateHired) / 365), 0)
+   TRUNC(((CAST('2012-10-1' As Date) - DateHired) / 365), 0)
                       AS YearsWithSchool
 FROM         Staff
 ORDER BY StaffName;
