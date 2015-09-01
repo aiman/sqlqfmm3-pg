@@ -28,7 +28,7 @@ CREATE TABLE Classes (
 	ClassID int NOT NULL ,
 	SubjectID int NULL DEFAULT 0 ,
 	ClassRoomID int NULL DEFAULT 0 ,
-	Credits tinyint NULL DEFAULT 0 , 
+	Credits smallint NULL DEFAULT 0 , 
         SemesterNumber smallint , 
         StartDate date NULL ,
 	StartTime time NULL ,
