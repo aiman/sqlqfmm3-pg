@@ -7,8 +7,8 @@ CREATE TABLE Buildings (
 	BuildingCode nvarchar (3) NOT NULL ,
 	BuildingName nvarchar (25) NULL ,
 	NumberOfFloors smallint NULL ,
-	ElevatorAccess bit NOT NULL DEFAULT 0 ,
-	SiteParkingAvailable bit NOT NULL DEFAULT 0  
+	ElevatorAccess smallint NOT NULL DEFAULT 0 ,
+	SiteParkingAvailable smallint NOT NULL DEFAULT 0  
 );
 
 CREATE TABLE Categories (
@@ -20,8 +20,8 @@ CREATE TABLE Categories (
 CREATE TABLE Class_Rooms (
 	ClassRoomID int NOT NULL ,
 	BuildingCode nvarchar (3) NULL ,
-	PhoneAvailable bit NOT NULL DEFAULT 0 ,
-        Capacity smallint NOT NULL DEFAULT 0
+	PhoneAvailable smallint NOT NULL DEFAULT 0 ,
+	Capacity smallint NOT NULL DEFAULT 0
 );
 
 CREATE TABLE Classes (
@@ -33,12 +33,12 @@ CREATE TABLE Classes (
         StartDate date NULL ,
 	StartTime time NULL ,
 	Duration smallint NULL DEFAULT 0 ,
-	MondaySchedule bit NOT NULL DEFAULT 0 ,
-	TuesdaySchedule bit NOT NULL DEFAULT 0 ,
-	WednesdaySchedule bit NOT NULL DEFAULT 0 ,
-	ThursdaySchedule bit NOT NULL DEFAULT 0 ,
-	FridaySchedule bit NOT NULL DEFAULT 0 ,
-	SaturdaySchedule bit NOT NULL DEFAULT 0
+	MondaySchedule smallint NOT NULL DEFAULT 0 ,
+	TuesdaySchedule smallint NOT NULL DEFAULT 0 ,
+	WednesdaySchedule smallint NOT NULL DEFAULT 0 ,
+	ThursdaySchedule smallint NOT NULL DEFAULT 0 ,
+	FridaySchedule smallint NOT NULL DEFAULT 0 ,
+	SaturdaySchedule smallint NOT NULL DEFAULT 0
 );
 
 CREATE TABLE Departments (
@@ -51,7 +51,7 @@ CREATE TABLE Faculty (
 	StaffID int NOT NULL ,
 	Title nvarchar (50) NULL ,
 	Status nvarchar (12) NULL ,
-	Tenured bit NOT NULL DEFAULT 0 
+	Tenured smallint NOT NULL DEFAULT 0 
 );
 
 CREATE TABLE Faculty_Categories (

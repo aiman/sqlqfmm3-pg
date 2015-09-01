@@ -9,7 +9,7 @@ CREATE TABLE Bowler_Scores (
 	BowlerID int NOT NULL DEFAULT 0 ,
 	RawScore smallint NULL DEFAULT 0 ,
 	HandiCapScore smallint NULL DEFAULT 0 ,
-	WonGame bit NOT NULL DEFAULT 0 
+	WonGame smallint NOT NULL DEFAULT 0
 ) ;
 
 CREATE TABLE Bowlers (
