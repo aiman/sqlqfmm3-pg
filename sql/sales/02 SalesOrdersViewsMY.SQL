@@ -579,7 +579,7 @@ FROM Vendors;
 
 CREATE VIEW CH14_Order_Totals_By_Customer_And_Date_GT1000
 AS
-SELECT Customers.CustFirstName +  ' ' +     Customers.CustLastName AS CustFullName, Orders.OrderDate, sum(Order_Details.QuotedPrice *     Order_Details.QuantityOrdered) AS TotalCost
+SELECT Customers.CustFirstName || ' ' || Customers.CustLastName AS CustFullName, Orders.OrderDate, sum(Order_Details.QuotedPrice *     Order_Details.QuantityOrdered) AS TotalCost
 FROM (Customers INNER JOIN Orders ON (Customers.CustomerID = Orders.CustomerID)) INNER JOIN Order_Details ON (Orders.OrderNumber =     Order_Details.OrderNumber)
 GROUP BY Customers.CustFirstName, Customers.CustLastName, Orders.OrderDate
 HAVING sum(Order_Details.QuotedPrice * Order_Details.QuantityOrdered) > 1000;
