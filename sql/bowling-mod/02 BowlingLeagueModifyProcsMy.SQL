@@ -9,10 +9,10 @@ SET              BowlerTotalPins =
                           (SELECT     COUNT(Bowler_Scores.RawScore)
                             FROM          Bowler_Scores
                             WHERE      Bowler_Scores.BowlerID = Bowlers.BowlerID), BowlerCurrentAverage =
-                          IfNull((SELECT     Round(AVG(Bowler_Scores.RawScore), 0)
+                          Coalesce((SELECT     Round(AVG(Bowler_Scores.RawScore), 0)
                             FROM          Bowler_Scores
                             WHERE      Bowler_Scores.BowlerID = Bowlers.BowlerID), 0), BowlerCurrentHcp =
-                          IfNull((SELECT     Round(0.9 * (200 - Round(AVG(Bowler_Scores.RawScore), 0)), 0)
+                          Coalesce((SELECT     Round(0.9 * (200 - Round(AVG(Bowler_Scores.RawScore), 0)), 0)
                             FROM          Bowler_Scores
                             WHERE      Bowler_Scores.BowlerID = Bowlers.BowlerID), 0);
 
@@ -27,11 +27,11 @@ AS NewBowlerTotalPins, Bowlers.BowlerGamesBowled,
                             FROM          Bowler_Scores
                             WHERE      Bowler_Scores.BowlerID = Bowlers.BowlerID) 
 AS NewBowlerGamesBowled, Bowlers.BowlerCurrentAverage, 
-                          IfNull((SELECT     Round(AVG(Bowler_Scores.RawScore), 0)
+                          Coalesce((SELECT     Round(AVG(Bowler_Scores.RawScore), 0)
                             FROM          Bowler_Scores
                             WHERE      Bowler_Scores.BowlerID = Bowlers.BowlerID), 0) 
 AS NewBowlerCurrentAverage, Bowlers.BowlerCurrentHcp, 
-                          IfNull((SELECT     Round(0.9 * (200 - Round(AVG(Bowler_Scores.RawScore), 0)), 0)
+                          Coalesce((SELECT     Round(0.9 * (200 - Round(AVG(Bowler_Scores.RawScore), 0)), 0)
                             FROM          Bowler_Scores
                             WHERE      Bowler_Scores.BowlerID = Bowlers.BowlerID), 0) 
 AS NewBowlerCurrentHcp
