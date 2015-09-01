@@ -48,7 +48,7 @@ ORDER BY City, Customer;
 
 CREATE VIEW CH05_Engagement_Lengths
 AS 
-SELECT EngagementNumber, Concat((DateDiff(EndDate, StartDate) + 1), ' day(s)') AS DueToRun
+SELECT EngagementNumber, Concat((EndDate - StartDate + 1), ' day(s)') AS DueToRun
 FROM Engagements;
 
 
@@ -62,7 +62,7 @@ FROM Entertainers;
 
 CREATE VIEW CH05_First_Performance_Review
 AS 
-SELECT Concat(AgtLastName, ', ', AgtFirstName) AS Agent, DateHired, Date_Add(DateHired, Interval 180 Day) AS FirstReview
+SELECT Concat(AgtLastName, ', ', AgtFirstName) AS Agent, DateHired, (DateHired + Interval '180 days') AS FirstReview
 FROM Agents
 ORDER BY Agent;
 
@@ -88,7 +88,7 @@ CREATE VIEW CH06_FourDay_Engagements
 AS 
 SELECT EngagementNumber, StartDate, EndDate
 FROM Engagements
-WHERE DateDiff(EndDate, Startdate) = 3;
+WHERE (EndDate - Startdate) = 3;
 
 
 
@@ -855,7 +855,7 @@ FROM Entertainers
 WHERE Entertainers.EntertainerID NOT IN
 (SELECT Engagements.EntertainerID 
 FROM Engagements 
-WHERE Engagements.StartDate > Date_Add(CAST('2013-05-01' AS Date), INTERVAL -90 Day));
+WHERE Engagements.StartDate > (CAST('2013-05-01' AS Date) - INTERVAL '90 days'));
 
 
 CREATE VIEW CH19_Customer_Styles_Oldies

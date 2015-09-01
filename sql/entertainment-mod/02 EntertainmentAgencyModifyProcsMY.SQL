@@ -2,14 +2,14 @@
 
 CREATE PROCEDURE CH15_Calculate_Entertainment_ContractPrice()
 UPDATE  Engagements
-SET        ContractPrice = ROUND(1.15 * (DateDiff(EndDate, StartDate) + 1) *
+SET        ContractPrice = ROUND(1.15 * (EndDate - StartDate + 1) *
              (SELECT     EntPricePerDay
               FROM          Entertainers
               WHERE      Entertainers.EntertainerID = Engagements.EntertainerID), 0);
 
 CREATE VIEW CH15_Calculate_Entertainment_ContractPrice_Query
 AS 
-SELECT EngagementNumber, StartDate, EndDate, ContractPrice, ROUND(1.15 * (DateDiff(EndDate, StartDate) + 1) *
+SELECT EngagementNumber, StartDate, EndDate, ContractPrice, ROUND(1.15 * (EndDate - StartDate + 1) *
              (SELECT     EntPricePerDay
               FROM          Entertainers
               WHERE      Entertainers.EntertainerID = Engagements.EntertainerID), 0)

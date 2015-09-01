@@ -53,7 +53,7 @@ FROM Products;
 
 CREATE VIEW CH05_Shipping_Days_Analysis
 AS
-SELECT OrderNumber, OrderDate, ShipDate, DateDiff(ShipDate, OrderDate) AS DaysElapsed
+SELECT OrderNumber, OrderDate, ShipDate, (ShipDate - OrderDate) AS DaysElapsed
 FROM Orders;
 
 
@@ -895,12 +895,12 @@ FROM           Customers;
 CREATE VIEW CH19_Employee_Age_FEB152014 
 AS 
 SELECT        EmployeeID, EmpFirstName, EmpLastName, 
-YEAR(CAST('2014-02-15' As Date)) - YEAR(EmpBirthDate) - 
-(CASE WHEN Month(EmpBirthDate) < 2 
+EXTRACT(YEAR FROM (CAST('2014-02-15' As Date))) - EXTRACT(YEAR FROM EmpBirthDate::Date) - 
+(CASE WHEN EXTRACT(Month FROM EmpBirthDate::Date) < 2 
         THEN 0 
-      WHEN Month(EmpBirthDate) > 2 
+      WHEN EXTRACT(Month FROM EmpBirthDate::Date) > 2 
         THEN 1 
-      WHEN Day(EmpBirthDate) > 15 
+      WHEN EXTRACT(Day FROM EmpBirthDate::Date) > 15 
         THEN 1 
         ELSE 0 END) AS EmpAge 
 FROM            Employees;

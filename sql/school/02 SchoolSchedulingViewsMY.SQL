@@ -30,7 +30,7 @@ FROM Subjects ;
 CREATE VIEW CH05_Length_Of_Service
 AS
 SELECT  Concat(StfLastname, ', ', StfFirstName) AS StaffName, DateHired,
-   TRUNCATE((DATEDIFF(CAST('2012-10-1' As Date), DateHired) / 365), 0)
+   TRUNCATE(((CAST('2012-10-1' As Date) - DateHired) / 365), 0)
                       AS YearsWithSchool
 FROM         Staff
 ORDER BY StaffName;
@@ -808,16 +808,16 @@ AS
 
 SELECT StaffID, StfFirstName, StfLastname, 
 
-           YEAR(CAST('2012-10-01' As Date)) - YEAR(DateHired) - 
+           EXTRACT(YEAR FROM TIMESTAMP '2012-10-01') - EXTRACT(YEAR FROM DateHired::Date) - 
 
-(CASE WHEN Month(DateHired) < 10 
+(CASE WHEN EXTRACT(Month FROM DateHired::Date) < 10 
 
         THEN 0 
 
-      WHEN Month(DateHired) > 10 
+      WHEN EXTRACT(Month FROM DateHired::Date) > 10 
         THEN 1 
 
-      WHEN Day(DateHired) > 1 
+      WHEN EXTRACT(Day FROM DateHired::Date) > 1 
 
         THEN 1 
 
@@ -840,17 +840,17 @@ AS
 
 SELECT StudentID, StudFirstName, StudLastName, StudBirthDate, 
 
-          YEAR(CAST('2012-11-15' As Date)) - YEAR(StudBirthDate) - 
+          EXTRACT(YEAR FROM '2012-11-15'::Date) - EXTRACT(YEAR FROM StudBirthDate::Date) - 
 
 
-(CASE WHEN Month(StudBirthDate) < 11 
+(CASE WHEN EXTRACT(Month FROM StudBirthDate::Date) < 11 
 
         THEN 0 
 
-      WHEN Month(StudBirthDate) > 11 
+      WHEN EXTRACT(Month FROM StudBirthDate::Date) > 11 
          THEN 1 
 
-      WHEN Day(StudBirthDate) > 15 
+      WHEN EXTRACT(Day FROM StudBirthDate::Date) > 15 
 
         THEN 1 
 

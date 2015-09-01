@@ -42,7 +42,7 @@ ORDER BY BowlerZip;
 
 CREATE VIEW CH05_Next_Years_Tourney_Dates
 AS
-SELECT     TourneyLocation, TourneyDate, TourneyDate + Interval 364 Day AS NextYearTourneyDate
+SELECT     TourneyLocation, TourneyDate, TourneyDate + Interval '364 days' AS NextYearTourneyDate
 FROM          Tournaments
 ORDER BY TourneyLocation;
 

@@ -194,13 +194,13 @@ WHERE     (MatchID IN
 CREATE PROCEDURE CH16_Copy_2012_Tournaments_1()
 INSERT INTO Tournaments
                       (TourneyID, TourneyDate, TourneyLocation)
-SELECT     TourneyID + 25 AS NewTourneyID, Date_Add(TourneyDate, Interval 728 Day) AS NewTourneyDate, TourneyLocation
+SELECT     TourneyID + 25 AS NewTourneyID, (TourneyDate + Interval '728 days') AS NewTourneyDate, TourneyLocation
 FROM         Tournaments
 WHERE     (TourneyDate BETWEEN CAST('2012-01-01' AS Date)  AND CAST('2012-12-31' AS Date) );
 
 CREATE VIEW CH16_Copy_2012_Tournaments_1_Query
 AS 
-SELECT     TourneyID + 25 AS NewTourneyID, Date_Add(TourneyDate, Interval 728 Day) AS NewTourneyDate, TourneyLocation
+SELECT     TourneyID + 25 AS NewTourneyID, (TourneyDate + Interval '728 days') AS NewTourneyDate, TourneyLocation
 FROM         Tournaments
 WHERE     (TourneyDate BETWEEN CAST('2012-01-01' AS Date)  AND CAST('2012-12-31' AS Date) );
 

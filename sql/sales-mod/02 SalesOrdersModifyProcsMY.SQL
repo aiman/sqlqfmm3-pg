@@ -50,7 +50,7 @@ SET              QuotedPrice = ROUND(QuotedPrice * 0.98, 2)
 WHERE     (OrderNumber IN
                           (SELECT     Orders.OrderNumber
                             FROM          Orders
-                            WHERE      DateDiff(Orders.ShipDate, Orders.OrderDate) > 30));
+                            WHERE      (Orders.ShipDate - Orders.OrderDate) > 30));
 
 CREATE VIEW CH15_Adjust_Late_Order_Prices_Query
 AS 
@@ -59,7 +59,7 @@ FROM Order_Details
 WHERE     (OrderNumber IN
                           (SELECT     Orders.OrderNumber
                             FROM          Orders
-                            WHERE      DateDiff(Orders.ShipDate, Orders.OrderDate) > 30));
+                            WHERE      (Orders.ShipDate - Orders.OrderDate) > 30));
 
 /* MySQL doesn't like it when you reference the target table in a subquery in the WHERE clause
   in the following procedure.
