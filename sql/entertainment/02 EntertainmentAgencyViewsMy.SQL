@@ -513,7 +513,7 @@ FROM Agents
 INNER JOIN Engagements
 ON Agents.AgentID = Engagements.AgentID
 GROUP BY Agents.AgtFirstName, Agents.AgtLastName, Agents.CommissionRate
-HAVING Commission > 1000;
+HAVING (Sum(ContractPrice) * CommissionRate) > 1000;
 
 
 CREATE VIEW CH14_Agents_Book_Over_3000_12_2012
