@@ -265,7 +265,7 @@ ALTER TABLE Staff
 
 CREATE  INDEX StaffZipCode ON Staff(StfZipCode);
 
-CREATE  INDEX StudAreaCode ON Staff(StfAreaCode);
+CREATE  INDEX StfAreaCode ON Staff(StfAreaCode);
 
 ALTER TABLE Student_Class_Status 
         ADD CONSTRAINT Student_Class_Status_PK PRIMARY KEY 
@@ -292,7 +292,7 @@ ALTER TABLE Students
                 StudentID
         );
 
-CREATE  INDEX StudAreaCode ON Students(StudAreaCode);
+CREATE  INDEX Students_StudAreaCode ON Students(StudAreaCode);
 
 CREATE  INDEX StudZipCode ON Students(StudZipCode);
 

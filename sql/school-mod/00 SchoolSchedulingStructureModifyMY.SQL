@@ -188,7 +188,7 @@ CREATE  INDEX SubjectsFaculty_Subjects ON Faculty_Subjects(SubjectID);
 
 CREATE  INDEX StaffZipCode ON Staff(StfZipCode);
 
-CREATE  INDEX StudAreaCode ON Staff(StfAreaCode);
+CREATE  INDEX Staff_StudAreaCode ON Staff(StfAreaCode);
 
 ALTER TABLE Majors 
         ADD CONSTRAINT Majors_PK PRIMARY KEY
@@ -209,7 +209,7 @@ CREATE  INDEX Student_Class_StatusStudent_Schedules ON Student_Schedules(ClassSt
 
 CREATE  INDEX StudentsStudent_Schedules ON Student_Schedules(StudentID);
 
-CREATE  INDEX StudAreaCode ON Students(StudAreaCode);
+CREATE  INDEX Students_StudAreaCode ON Students(StudAreaCode);
 
 CREATE  INDEX StudZipCode ON Students(StudZipCode);
 

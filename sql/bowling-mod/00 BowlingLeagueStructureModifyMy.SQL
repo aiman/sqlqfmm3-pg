@@ -98,7 +98,7 @@ ALTER TABLE Bowler_Scores ADD
 		BowlerID
 	)   ;
 
-CREATE  INDEX BowlerID ON Bowler_Scores(BowlerID) ;
+CREATE  INDEX Bowler_Scores_BowlerID ON Bowler_Scores(BowlerID) ;
 
 CREATE  INDEX MatchGamesBowlerScores ON Bowler_Scores(MatchID, GameNumber) ;
 
@@ -110,7 +110,7 @@ ALTER TABLE Bowler_Scores_Archive ADD
 		BowlerID
 	)  ;
 
-CREATE  INDEX BowlerID ON Bowler_Scores_Archive(BowlerID);
+CREATE  INDEX Bowler_Scores_Archive_BowlerID ON Bowler_Scores_Archive(BowlerID);
 
 CREATE  INDEX Match_Games_ArchiveBowler_Scores_Archive ON Bowler_Scores_Archive(MatchID, GameNumber);
 
@@ -125,7 +125,7 @@ ALTER TABLE Match_Games ADD
 		GameNumber
 	)   ;
 
-CREATE  INDEX Team1ID ON Match_Games(WinningTeamID) ;
+CREATE  INDEX Match_Games_Team1ID ON Match_Games(WinningTeamID) ;
 
 CREATE  INDEX TourneyMatchesMatchGames ON Match_Games(MatchID) ;
 
@@ -136,7 +136,7 @@ ALTER TABLE Match_Games_Archive ADD
 		GameNumber
 	)  ;
 
-CREATE  INDEX Team1ID ON Match_Games_Archive(WinningTeamID);
+CREATE  INDEX Match_Games_Archive_Team1ID ON Match_Games_Archive(WinningTeamID);
 
 CREATE  INDEX Tourney_Matches_ArchiveMatch_Games_Archive ON Match_Games_Archive(MatchID);
 
@@ -158,7 +158,7 @@ ALTER TABLE Tourney_Matches_Archive ADD
 		MatchID
 	)  ;
 
-CREATE  INDEX Team1ID ON Tourney_Matches_Archive(OddLaneTeamID);
+CREATE  INDEX Tourney_Matches_Archive_Team1ID ON Tourney_Matches_Archive(OddLaneTeamID);
 
 CREATE  INDEX Team2ID ON Tourney_Matches_Archive(EvenLaneTeamID);
 

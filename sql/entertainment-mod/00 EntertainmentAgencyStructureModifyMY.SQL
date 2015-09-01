@@ -102,11 +102,11 @@ CREATE  INDEX CustZipCode ON Customers(CustZipCode);
 
 CREATE  INDEX AgentsEngagements ON Engagements(AgentID);
 
-CREATE  INDEX CustomerID ON Engagements(CustomerID);
+CREATE  INDEX Engagements_CustomerID ON Engagements(CustomerID);
 
-CREATE  INDEX EmployeeID ON Engagements(AgentID);
+CREATE  INDEX Engagements_EmployeeID ON Engagements(AgentID);
 
-CREATE  INDEX EntertainerID ON Engagements(EntertainerID);
+CREATE  INDEX Engagements_EntertainerID ON Engagements(EntertainerID);
 
 ALTER TABLE Engagements_Archive 
         ADD CONSTRAINT Engagements_Archive_PK PRIMARY KEY 
@@ -114,11 +114,11 @@ ALTER TABLE Engagements_Archive
                 EngagementNumber
         );
 
-CREATE  INDEX CustomerID ON Engagements_Archive(CustomerID);
+CREATE  INDEX Engagements_Archive_CustomerID ON Engagements_Archive(CustomerID);
 
-CREATE  INDEX EmployeeID ON Engagements_Archive(AgentID);
+CREATE  INDEX Engagements_Archive_EmployeeID ON Engagements_Archive(AgentID);
 
-CREATE  INDEX EntertainerID ON Engagements_Archive(EntertainerID);
+CREATE  INDEX Engagements_Archive_EntertainerID ON Engagements_Archive(EntertainerID);
 
 ALTER TABLE Entertainer_Members 
         ADD CONSTRAINT Entertainer_Members_PK PRIMARY KEY 
@@ -151,7 +151,7 @@ ALTER TABLE Musical_Preferences
                 StyleID
         );
 
-CREATE  INDEX CustomerID ON Musical_Preferences(CustomerID);
+CREATE  INDEX Musical_Preferences_CustomerID ON Musical_Preferences(CustomerID);
 
 CREATE  INDEX StyleID ON Musical_Preferences(StyleID);
 

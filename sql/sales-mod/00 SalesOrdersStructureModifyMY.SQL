@@ -122,13 +122,13 @@ ALTER TABLE Order_Details_Archive
 
 CREATE  INDEX Orders_ArchiveOrder_Details_Archive ON Order_Details_Archive(OrderNumber);
 
-CREATE  INDEX CustomerID ON Orders(CustomerID);
+CREATE  INDEX Orders_CustomerID ON Orders(CustomerID);
 
-CREATE  INDEX EmployeeID ON Orders(EmployeeID);
+CREATE  INDEX Orders_EmployeeID ON Orders(EmployeeID);
 
-CREATE  INDEX CustomerID ON Orders_Archive(CustomerID);
+CREATE  INDEX Orders_Archive_CustomerID ON Orders_Archive(CustomerID);
 
-CREATE  INDEX EmployeeID ON Orders_Archive(EmployeeID);
+CREATE  INDEX Orders_Archive_EmployeeID ON Orders_Archive(EmployeeID);
 
 ALTER TABLE Product_Vendors 
 	ADD CONSTRAINT Product_Vendors_PK PRIMARY KEY 
