@@ -182,7 +182,7 @@ BEGIN
    DROP TEMPORARY TABLE IF EXISTS zzSubjects;
 
    CREATE TEMPORARY TABLE zzSubjects (
-        SubjectPreReq nvarchar (8) NOT NULL PRIMARY KEY);
+        SubjectPreReq varchar(8) NOT NULL PRIMARY KEY);
 
    INSERT INTO zzSubjects
    SELECT DISTINCT SubjectPreReq FROM Subjects

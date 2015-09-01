@@ -4,22 +4,22 @@ CREATE DATABASE "SchoolSchedulingExample";
 \connect "SchoolSchedulingExample"
 
 CREATE TABLE Buildings (
-	BuildingCode nvarchar (3) NOT NULL ,
-	BuildingName nvarchar (25) NULL ,
+	BuildingCode varchar(3) NOT NULL ,
+	BuildingName varchar(25) NULL ,
 	NumberOfFloors smallint NULL ,
 	ElevatorAccess smallint NOT NULL DEFAULT 0 ,
 	SiteParkingAvailable smallint NOT NULL DEFAULT 0  
 );
 
 CREATE TABLE Categories (
-	CategoryID nvarchar (10) NOT NULL ,
-	CategoryDescription nvarchar (75) NULL ,
+	CategoryID varchar(10) NOT NULL ,
+	CategoryDescription varchar(75) NULL ,
 	DepartmentID int NULL DEFAULT 0 
 );
 
 CREATE TABLE Class_Rooms (
 	ClassRoomID int NOT NULL ,
-	BuildingCode nvarchar (3) NULL ,
+	BuildingCode varchar(3) NULL ,
 	PhoneAvailable smallint NOT NULL DEFAULT 0 ,
 	Capacity smallint NOT NULL DEFAULT 0
 );
@@ -43,20 +43,20 @@ CREATE TABLE Classes (
 
 CREATE TABLE Departments (
 	DepartmentID int NOT NULL ,
-	DeptName nvarchar (50) NULL ,
+	DeptName varchar(50) NULL ,
 	DeptChair int NULL DEFAULT 0 
 );
 
 CREATE TABLE Faculty (
 	StaffID int NOT NULL ,
-	Title nvarchar (50) NULL ,
-	Status nvarchar (12) NULL ,
+	Title varchar(50) NULL ,
+	Status varchar(12) NULL ,
 	Tenured smallint NOT NULL DEFAULT 0 
 );
 
 CREATE TABLE Faculty_Categories (
 	StaffID int NOT NULL ,
-	CategoryID nvarchar (10) NOT NULL DEFAULT 'ACC' 
+	CategoryID varchar(10) NOT NULL DEFAULT 'ACC' 
 );
 
 CREATE TABLE Faculty_Classes (
@@ -72,27 +72,27 @@ CREATE TABLE Faculty_Subjects (
 
 CREATE TABLE Majors (
         MajorID int NOT NULL ,
-        Major nvarchar (20) NULL 
+        Major varchar(20) NULL 
 );
 
 CREATE TABLE Staff (
 	StaffID int NOT NULL ,
-	StfFirstName nvarchar (25) NULL ,
-	StfLastname nvarchar (25) NULL ,
-	StfStreetAddress nvarchar (50) NULL ,
-	StfCity nvarchar (30) NULL ,
-	StfState nvarchar (2) NULL ,
-	StfZipCode nvarchar (5) NULL ,
-	StfAreaCode nvarchar (5) NULL ,
-	StfPhoneNumber nvarchar (8) NULL ,
+	StfFirstName varchar(25) NULL ,
+	StfLastname varchar(25) NULL ,
+	StfStreetAddress varchar(50) NULL ,
+	StfCity varchar(30) NULL ,
+	StfState varchar(2) NULL ,
+	StfZipCode varchar(5) NULL ,
+	StfAreaCode varchar(5) NULL ,
+	StfPhoneNumber varchar(8) NULL ,
 	Salary decimal(15,2) NULL ,
 	DateHired date NULL ,
-	Position nvarchar (50) NULL 
+	Position varchar(50) NULL 
 );
 
 CREATE TABLE Student_Class_Status (
 	ClassStatus int NOT NULL DEFAULT 0 ,
-	ClassStatusDescription nvarchar (50) NULL 
+	ClassStatusDescription varchar(50) NULL 
 );
 
 CREATE TABLE Student_Schedules (
@@ -104,46 +104,46 @@ CREATE TABLE Student_Schedules (
 
 CREATE TABLE Students (
 	StudentID int NOT NULL ,
-	StudFirstName nvarchar (25) NULL ,
-	StudLastName nvarchar (25) NULL ,
-	StudStreetAddress nvarchar (50) NULL ,
-	StudCity nvarchar (30) NULL ,
-	StudState nvarchar (2) NULL ,
-	StudZipCode nvarchar (5) NULL ,
-	StudAreaCode nvarchar (5) NULL ,
-	StudPhoneNumber nvarchar (8) NULL ,
+	StudFirstName varchar(25) NULL ,
+	StudLastName varchar(25) NULL ,
+	StudStreetAddress varchar(50) NULL ,
+	StudCity varchar(30) NULL ,
+	StudState varchar(2) NULL ,
+	StudZipCode varchar(5) NULL ,
+	StudAreaCode varchar(5) NULL ,
+	StudPhoneNumber varchar(8) NULL ,
 	StudBirthDate date NULL ,
-	StudGender nvarchar (1) NULL,
-	StudMaritalStatus nvarchar (1) NULL, 
+	StudGender varchar(1) NULL,
+	StudMaritalStatus varchar(1) NULL, 
         StudMajor int NULL 
 );
 
 CREATE TABLE Subjects (
 	SubjectID int NOT NULL DEFAULT 0 ,
-	CategoryID nvarchar (10) NULL ,
-	SubjectCode nvarchar (8) NULL ,
-	SubjectName nvarchar (50) NULL ,
-        SubjectPreReq nvarchar (8) NULL DEFAULT NULL ,
+	CategoryID varchar(10) NULL ,
+	SubjectCode varchar(8) NULL ,
+	SubjectName varchar(50) NULL ,
+        SubjectPreReq varchar(8) NULL DEFAULT NULL ,
 	SubjectDescription text NULL ,
         SubjectEstClassSize smallint NOT NULL DEFAULT 0 
 );
 
 CREATE TABLE ztblGenderMatrix (
-	Gender nvarchar (1) NOT NULL ,
+	Gender varchar(1) NOT NULL ,
         Male smallint NULL ,
         Female smallint NULL
 ) ;
 
 
 CREATE TABLE ztblLetterGrades ( 
-	LetterGrade nvarchar (3) NOT NULL ,
+	LetterGrade varchar(3) NOT NULL ,
         LowGradePoint real NULL ,
         HighGradePoint real NULL 
 ) ; 
 
 
 CREATE TABLE ztblMaritalStatusMatrix (
-	MaritalStatus nvarchar (1) NOT NULL , 
+	MaritalStatus varchar(1) NOT NULL , 
 	Married smallint NULL ,
         Single smallint NULL ,
         Widowed smallint NULL ,
@@ -152,7 +152,7 @@ CREATE TABLE ztblMaritalStatusMatrix (
 
 
 CREATE TABLE ztblProfRatings ( 
-        ProfRatingDesc nvarchar (12) NULL ,
+        ProfRatingDesc varchar(12) NULL ,
         ProfRatingLow float (53) NOT NULL ,
         ProfRatingHigh float (53) NULL 
 ) ; 
@@ -161,7 +161,7 @@ CREATE TABLE ztblProfRatings (
 CREATE TABLE ztblSemesterDays (
         SemesterNo smallint NOT NULL ,
         SemDate date NOT NULL ,
-        SemDayName nvarchar (10) NULL
+        SemDayName varchar(10) NULL
 ) ; 
 
 

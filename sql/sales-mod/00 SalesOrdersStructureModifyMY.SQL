@@ -5,31 +5,31 @@ CREATE DATABASE "SalesOrdersModify";
 
 CREATE TABLE Categories (
 	CategoryID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-	CategoryDescription nvarchar (75) NULL 
+	CategoryDescription varchar(75) NULL 
 	);
 
 CREATE TABLE Customers (
 	CustomerID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-	CustFirstName nvarchar (25) NULL ,
-	CustLastName nvarchar (25) NULL ,
-	CustStreetAddress nvarchar (50) NULL ,
-	CustCity nvarchar (30) NULL ,
-	CustState nvarchar (2) NULL ,
-	CustZipCode nvarchar (10) NULL ,
+	CustFirstName varchar(25) NULL ,
+	CustLastName varchar(25) NULL ,
+	CustStreetAddress varchar(50) NULL ,
+	CustCity varchar(30) NULL ,
+	CustState varchar(2) NULL ,
+	CustZipCode varchar(10) NULL ,
 	CustAreaCode smallint NULL DEFAULT 0 ,
-	CustPhoneNumber nvarchar (8) NULL 
+	CustPhoneNumber varchar(8) NULL 
 	);
 
 CREATE TABLE Employees (
 	EmployeeID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-	EmpFirstName nvarchar (25) NULL ,
-	EmpLastName nvarchar (25) NULL ,
-	EmpStreetAddress nvarchar (50) NULL ,
-	EmpCity nvarchar (30) NULL ,
-	EmpState nvarchar (2) NULL ,
-	EmpZipCode nvarchar (10) NULL ,
+	EmpFirstName varchar(25) NULL ,
+	EmpLastName varchar(25) NULL ,
+	EmpStreetAddress varchar(50) NULL ,
+	EmpCity varchar(30) NULL ,
+	EmpState varchar(2) NULL ,
+	EmpZipCode varchar(10) NULL ,
 	EmpAreaCode smallint NULL DEFAULT 0 ,
-	EmpPhoneNumber nvarchar (8) NULL 
+	EmpPhoneNumber varchar(8) NULL 
 	);
 
 CREATE TABLE Order_Details (
@@ -74,8 +74,8 @@ CREATE TABLE Product_Vendors (
 
 CREATE TABLE Products (
 	ProductNumber int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-	ProductName nvarchar (50) NULL ,
-	ProductDescription nvarchar (100) NULL ,
+	ProductName varchar(50) NULL ,
+	ProductDescription varchar(100) NULL ,
 	RetailPrice decimal (15,2) NULL DEFAULT 0 ,
 	QuantityOnHand smallint NULL DEFAULT 0 ,
 	CategoryID int NULL DEFAULT 0 
@@ -83,15 +83,15 @@ CREATE TABLE Products (
 
 CREATE TABLE Vendors (
 	VendorID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-	VendName nvarchar (25) NULL ,
-	VendStreetAddress nvarchar (50) NULL ,
-	VendCity nvarchar (30) NULL ,
-	VendState nvarchar (2) NULL ,
-	VendZipCode nvarchar (10) NULL ,
-	VendPhoneNumber nvarchar (15) NULL ,
-	VendFaxNumber nvarchar (15) NULL ,
+	VendName varchar(25) NULL ,
+	VendStreetAddress varchar(50) NULL ,
+	VendCity varchar(30) NULL ,
+	VendState varchar(2) NULL ,
+	VendZipCode varchar(10) NULL ,
+	VendPhoneNumber varchar(15) NULL ,
+	VendFaxNumber varchar(15) NULL ,
 	VendWebPage text NULL ,
-	VendEMailAddress nvarchar (50) NULL
+	VendEMailAddress varchar(50) NULL
 	);
 
 CREATE  INDEX CustAreaCode ON Customers(CustAreaCode);

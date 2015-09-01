@@ -23,14 +23,14 @@ CREATE TABLE Bowler_Scores_Archive (
 
 CREATE TABLE Bowlers (
 	BowlerID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-	BowlerLastName nvarchar (50) NULL ,
-	BowlerFirstName nvarchar (50) NULL ,
-	BowlerMiddleInit nvarchar (1) NULL ,
-	BowlerAddress nvarchar (50) NULL ,
-	BowlerCity nvarchar (50) NULL ,
-	BowlerState nvarchar (2) NULL ,
-	BowlerZip nvarchar (10) NULL ,
-	BowlerPhoneNumber nvarchar (14) NULL ,
+	BowlerLastName varchar(50) NULL ,
+	BowlerFirstName varchar(50) NULL ,
+	BowlerMiddleInit varchar(1) NULL ,
+	BowlerAddress varchar(50) NULL ,
+	BowlerCity varchar(50) NULL ,
+	BowlerState varchar(2) NULL ,
+	BowlerZip varchar(10) NULL ,
+	BowlerPhoneNumber varchar(14) NULL ,
 	TeamID int NULL ,
 	BowlerTotalPins int NULL DEFAULT 0 ,
 	BowlerGamesBowled int NULL DEFAULT 0 ,
@@ -52,26 +52,26 @@ CREATE TABLE Match_Games_Archive (
 
 CREATE TABLE Teams (
 	TeamID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-	TeamName nvarchar (50) NOT NULL ,
+	TeamName varchar(50) NOT NULL ,
 	CaptainID int NULL 
 );
 
 CREATE TABLE Tournaments (
 	TourneyID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 	TourneyDate date NULL ,
-	TourneyLocation nvarchar (50) NULL 
+	TourneyLocation varchar(50) NULL 
 );
 
 CREATE TABLE Tournaments_Archive (
 	TourneyID int NOT NULL DEFAULT 0 ,
 	TourneyDate date NULL ,
-	TourneyLocation nvarchar (50) NULL 
+	TourneyLocation varchar(50) NULL 
 );
 
 CREATE TABLE Tourney_Matches (
 	MatchID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 	TourneyID int NULL DEFAULT 0 ,
-	Lanes nvarchar (5) NULL ,
+	Lanes varchar(5) NULL ,
 	OddLaneTeamID int NULL DEFAULT 0 ,
 	EvenLaneTeamID int NULL DEFAULT 0 
 );
@@ -79,15 +79,15 @@ CREATE TABLE Tourney_Matches (
 CREATE TABLE Tourney_Matches_Archive (
 	MatchID int NOT NULL DEFAULT 0 ,
 	TourneyID int NULL DEFAULT 0 ,
-	Lanes nvarchar (5) NULL ,
+	Lanes varchar(5) NULL ,
 	OddLaneTeamID int NULL DEFAULT 0 ,
 	EvenLaneTeamID int NULL DEFAULT 0 
 );
 
 CREATE TABLE WAZips (
-	ZIP nvarchar (5) NOT NULL ,
-	City nvarchar (255) NULL ,
-	State nvarchar (255) NULL 
+	ZIP varchar(5) NOT NULL ,
+	City varchar(255) NULL ,
+	State varchar(255) NULL 
 );
 
 ALTER TABLE Bowler_Scores ADD 
