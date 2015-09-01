@@ -668,17 +668,17 @@ SELECT  Bowlers.BowlerID, Bowlers.BowlerFirstName, Bowlers.BowlerLastName,
           COUNT(Bowler_Scores.MatchID) AS GamesBowled, SUM(Bowler_Scores.RawScore) AS TotalPins, 
           (CASE COUNT(Bowler_Scores.MatchID) 
            WHEN 0 THEN 0 
-           ELSE CAST((SUM(Bowler_Scores.RawScore)/COUNT(Bowler_Scores.MatchID)) AS Signed Integer) END) AS BowlerAverage
+           ELSE CAST((SUM(Bowler_Scores.RawScore)/COUNT(Bowler_Scores.MatchID)) AS integer) END) AS BowlerAverage
 FROM    Bowlers LEFT OUTER JOIN Bowler_Scores 
         ON Bowlers.BowlerID = Bowler_Scores.BowlerID
 GROUP BY Bowlers.BowlerID, Bowlers.BowlerFirstName, Bowlers.BowlerLastName;
 
 
 CREATE VIEW CH19_Bowler_Ratings AS
-SELECT   Bowlers.BowlerID, Bowlers.BowlerLastName, Bowlers.BowlerFirstName, CAST(AVG(Bowler_Scores.RawScore) AS Signed Integer) AS BowlerAverage, 
-            (CASE WHEN CAST(AVG(Bowler_Scores.RawScore) AS Signed Integer) < 140 THEN 'Fair' 
-                  WHEN CAST(AVG(Bowler_Scores.RawScore) AS Signed Integer) < 160 THEN 'Average' 
-                  WHEN CAST(AVG(Bowler_Scores.RawScore) AS Signed Integer) < 185 THEN 'Good' 
+SELECT   Bowlers.BowlerID, Bowlers.BowlerLastName, Bowlers.BowlerFirstName, CAST(AVG(Bowler_Scores.RawScore) AS integer) AS BowlerAverage, 
+            (CASE WHEN CAST(AVG(Bowler_Scores.RawScore) AS integer) < 140 THEN 'Fair' 
+                  WHEN CAST(AVG(Bowler_Scores.RawScore) AS integer) < 160 THEN 'Average' 
+                  WHEN CAST(AVG(Bowler_Scores.RawScore) AS integer) < 185 THEN 'Good' 
                   ELSE 'Excellent' END) AS BowlerRating
 FROM     Bowlers INNER JOIN Bowler_Scores 
          ON Bowlers.BowlerID = Bowler_Scores.BowlerID
@@ -712,7 +712,7 @@ Note, however, that you can copy and paste the above SELECT statement (without C
 
 CREATE VIEW CH20_Bowler_Scores
 AS
-SELECT Bowlers.BowlerID, Bowlers.BowlerLastName, Bowlers.BowlerFirstName, CAST(AVG(Bowler_Scores.RawScore) AS Signed Integer) AS BowlerAverage 
+SELECT Bowlers.BowlerID, Bowlers.BowlerLastName, Bowlers.BowlerFirstName, CAST(AVG(Bowler_Scores.RawScore) AS integer) AS BowlerAverage 
 FROM Bowlers
 INNER JOIN Bowler_Scores 
 ON Bowlers.BowlerID=Bowler_Scores.BowlerID 
