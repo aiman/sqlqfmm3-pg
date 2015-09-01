@@ -1,4 +1,4 @@
-USE SalesOrdersExample;
+\connect "SalesOrdersExample"
 
 
 CREATE VIEW CH04_Customer_States

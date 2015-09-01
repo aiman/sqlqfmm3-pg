@@ -1,6 +1,7 @@
-CREATE DATABASE EntertainmentAgencyModify;
+DROP DATABASE IF EXISTS "EntertainmentAgencyModify";
+CREATE DATABASE "EntertainmentAgencyModify";
 
-USE EntertainmentAgencyModify;
+\connect "EntertainmentAgencyModify"
 
 CREATE TABLE Agents (
         AgentID int NOT NULL AUTO_INCREMENT PRIMARY KEY,

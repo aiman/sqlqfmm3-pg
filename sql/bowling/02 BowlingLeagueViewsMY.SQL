@@ -1,4 +1,4 @@
-Use BowlingLeagueExample;
+\connect "BowlingLeagueExample"
 
 CREATE VIEW CH04_Bowler_Names_Addresses
 AS SELECT     BowlerLastName, BowlerFirstName, BowlerAddress, BowlerCity, BowlerState, BowlerZip

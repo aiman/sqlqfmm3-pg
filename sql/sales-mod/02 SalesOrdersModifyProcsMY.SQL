@@ -1,10 +1,5 @@
-Use SalesOrdersModify;
-/* NOTE:
-   Be sure to turn off "safe" mode before attempting to run
-   any of the update / insert / delete procedures.
-   From MySQL Workbench, choose Edit / Preferences / SQL Queries
-   and clear the "Safe Updates" check box.
-*/
+\connect "SalesOrdersModify"
+
 CREATE PROCEDURE CH15_Adjust_Accessory_Retail_Price ()
 UPDATE Products SET RetailPrice = ROUND(1.35 * 
 (SELECT DISTINCT WholesalePrice FROM Product_Vendors

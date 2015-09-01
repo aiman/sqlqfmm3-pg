@@ -1,4 +1,4 @@
-USE SchoolSchedulingExample;
+\connect "SchoolSchedulingExample"
 
 INSERT INTO Staff
   (StaffID, StfFirstName, StfLastname, StfStreetAddress, 

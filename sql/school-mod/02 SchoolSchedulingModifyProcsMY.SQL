@@ -1,10 +1,5 @@
-USE SchoolSchedulingModify;
-/* NOTE:
-   Be sure to turn off "safe" mode before attempting to run
-   any of the update / insert / delete procedures.
-   From MySQL Workbench, choose Edit / Preferences / SQL Queries
-   and clear the "Safe Updates" check box.
-*/
+\connect "SchoolSchedulingModify"
+
 CREATE PROCEDURE CH15_Fix_Staff_AreaCode()
 UPDATE    Staff
 SET              StfAreaCode = '360'

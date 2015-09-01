@@ -1,4 +1,5 @@
-USE EntertainmentAgencyExample;
+\connect "EntertainmentAgencyExample"
+
 INSERT INTO Customers
   (CustomerID, CustFirstName, CustLastName, CustStreetAddress, 
    CustCity, CustState, CustZipCode, CustPhoneNumber)

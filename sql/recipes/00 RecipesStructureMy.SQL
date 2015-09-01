@@ -1,6 +1,7 @@
-CREATE DATABASE RecipesExample;
+DROP DATABASE IF EXISTS "RecipesExample";
+CREATE DATABASE "RecipesExample";
 
-use RecipesExample;
+\connect "RecipesExample"
 
 CREATE TABLE Ingredient_Classes (
         IngredientClassID smallint NOT NULL DEFAULT 0 ,

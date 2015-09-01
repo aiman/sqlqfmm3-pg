@@ -1,4 +1,5 @@
-USE SalesOrdersExample;
+\connect "SalesOrdersExample"
+
 INSERT INTO Customers
   (CustomerID, CustFirstName, CustLastName, CustStreetAddress, 
    CustCity, CustState, CustZipCode, CustAreaCode, 

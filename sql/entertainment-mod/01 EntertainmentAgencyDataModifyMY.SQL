@@ -1,4 +1,5 @@
-USE EntertainmentAgencyModify;
+\connect "EntertainmentAgencyModify"
+
 INSERT INTO Customers
   (CustomerID, CustFirstName, CustLastName, CustStreetAddress, 
    CustCity, CustState, CustZipCode, CustPhoneNumber)

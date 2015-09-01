@@ -1,6 +1,7 @@
-CREATE DATABASE SalesOrdersModify;
+DROP DATABASE IF EXISTS "SalesOrdersModify";
+CREATE DATABASE "SalesOrdersModify";
 
-use SalesOrdersModify;
+\connect "SalesOrdersModify"
 
 CREATE TABLE Categories (
 	CategoryID int NOT NULL AUTO_INCREMENT PRIMARY KEY ,

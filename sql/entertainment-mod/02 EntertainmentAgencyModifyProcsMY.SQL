@@ -1,10 +1,5 @@
-USE EntertainmentAgencyModify;
-/* NOTE:
-   Be sure to turn off "safe" mode before attempting to run
-   any of the update / insert / delete procedures.
-   From MySQL Workbench, choose Edit / Preferences / SQL Queries
-   and clear the "Safe Updates" check box.
-*/
+\connect "EntertainmentAgencyModify"
+
 CREATE PROCEDURE CH15_Calculate_Entertainment_ContractPrice()
 UPDATE  Engagements
 SET        ContractPrice = ROUND(1.15 * (DateDiff(EndDate, StartDate) + 1) *

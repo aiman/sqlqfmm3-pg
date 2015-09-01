@@ -1,4 +1,5 @@
-Use SalesOrdersModify;
+\connect "SalesOrdersModify"
+
 INSERT INTO Customers
   (CustomerID, CustFirstName, CustLastName, CustStreetAddress, 
    CustCity, CustState, CustZipCode, CustAreaCode, 

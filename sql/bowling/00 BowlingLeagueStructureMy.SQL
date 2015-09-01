@@ -1,6 +1,7 @@
-CREATE DATABASE BowlingLeagueExample;
+DROP DATABASE IF EXISTS "BowlingLeagueExample";
+CREATE DATABASE "BowlingLeagueExample";
 
-use BowlingLeagueExample;
+\connect "BowlingLeagueExample"
 
 CREATE TABLE Bowler_Scores (
 	MatchID int NOT NULL DEFAULT 0 ,

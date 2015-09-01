@@ -1,4 +1,5 @@
-USE SchoolSchedulingModify;
+\connect "SchoolSchedulingModify"
+
 INSERT INTO Staff
   (StaffID, StfFirstName, StfLastname, StfStreetAddress, 
    StfCity, StfState, StfZipCode, StfAreaCode, StfPhoneNumber, 

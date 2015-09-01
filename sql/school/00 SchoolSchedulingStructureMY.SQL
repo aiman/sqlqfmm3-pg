@@ -1,6 +1,7 @@
-CREATE DATABASE SchoolSchedulingExample;
+DROP DATABASE IF EXISTS "SchoolSchedulingExample";
+CREATE DATABASE "SchoolSchedulingExample";
 
-use SchoolSchedulingExample;
+\connect "SchoolSchedulingExample"
 
 CREATE TABLE Buildings (
 	BuildingCode nvarchar (3) NOT NULL ,

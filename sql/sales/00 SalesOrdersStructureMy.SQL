@@ -1,6 +1,7 @@
-CREATE DATABASE SalesOrdersExample;
+DROP DATABASE IF EXISTS "SalesOrdersExample";
+CREATE DATABASE "SalesOrdersExample";
 
-use SalesOrdersExample;
+\connect "SalesOrdersExample"
 
 CREATE TABLE Categories (
 	CategoryID int NOT NULL DEFAULT 0 ,

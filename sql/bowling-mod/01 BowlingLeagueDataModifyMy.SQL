@@ -1,4 +1,5 @@
-Use BowlingLeagueModify;
+\connect "BowlingLeagueModify"
+
 INSERT INTO Tournaments
   (TourneyID, TourneyDate, TourneyLocation)
   VALUES (1, '2012-09-04', 'Red Rooster Lanes');

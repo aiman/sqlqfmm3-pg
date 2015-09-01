@@ -1,4 +1,4 @@
-USE RecipesExample;
+\connect "RecipesExample"
 
 CREATE VIEW CH04_Complete_Ingredient_List
 AS

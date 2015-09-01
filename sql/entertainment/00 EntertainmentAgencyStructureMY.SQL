@@ -1,6 +1,7 @@
-CREATE DATABASE EntertainmentAgencyExample;
+DROP DATABASE IF EXISTS "EntertainmentAgencyExample";
+CREATE DATABASE "EntertainmentAgencyExample";
 
-use EntertainmentAgencyExample;
+\connect "EntertainmentAgencyExample"
 
 CREATE TABLE Agents (
         AgentID int NOT NULL ,

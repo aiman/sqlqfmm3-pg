@@ -1,10 +1,5 @@
-USE BowlingLeagueModify;
-/* NOTE:
-   Be sure to turn off "safe" mode before attempting to run
-   any of the update / insert / delete procedures.
-   From MySQL Workbench, choose Edit / Preferences / SQL Queries
-   and clear the "Safe Updates" check box.
-*/
+\connect "BowlingLeagueModify"
+
 CREATE PROCEDURE CH15_Calc_Bowler_Pins_Avg_Hcp()
 UPDATE    Bowlers
 SET              BowlerTotalPins =
