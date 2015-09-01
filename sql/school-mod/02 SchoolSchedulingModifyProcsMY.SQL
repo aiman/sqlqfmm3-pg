@@ -42,7 +42,7 @@ WHERE     (StaffID IN
 CREATE PROCEDURE CH15_Update_Student_GPA()
 UPDATE    Students
 SET              StudGPA =
-                          Coalesce((SELECT     Round(SUM(Classes.Credits * Student_Schedules.Grade) / SUM(Classes.Credits), 3)
+                          Coalesce((SELECT     Round(CAST(SUM(Classes.Credits * Student_Schedules.Grade) / SUM(Classes.Credits) AS numeric), 3)
                             FROM          Classes INNER JOIN
                                                    Student_Schedules ON Classes.ClassID = Student_Schedules.ClassID
                             WHERE      (Student_Schedules.ClassStatus = 2) AND (Student_Schedules.StudentID = Students.StudentID)), 0);
@@ -50,7 +50,7 @@ SET              StudGPA =
 CREATE VIEW CH15_Update_Student_GPA_Query
 AS 
 SELECT   StudentID, StudFirstName, StudLastName, StudGPA, 
-                          Coalesce((SELECT     Round(SUM(Classes.Credits * Student_Schedules.Grade) / SUM(Classes.Credits), 3)
+                          Coalesce((SELECT     Round(CAST(SUM(Classes.Credits * Student_Schedules.Grade) / SUM(Classes.Credits) AS numeric), 3)
                             FROM          Classes INNER JOIN
                                                    Student_Schedules ON Classes.ClassID = Student_Schedules.ClassID
                             WHERE      (Student_Schedules.ClassStatus = 2) AND (Student_Schedules.StudentID = Students.StudentID)), 0) AS NewStudGPA

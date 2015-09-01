@@ -868,15 +868,13 @@ SELECT        StudentID, StudFirstName, StudLastName,
                      ELSE 'Not Specified' END) AS Gender
 FROM            Students;
 
-/* MySQL does not support embedded SELECT statements in the FROM clause in the following view:
-See below for views constructed on views to obtain the same result.
 CREATE VIEW CH19_Student_GPA_Avoid_0_Passed
 AS
 SELECT   Students.StudentID, Students.StudFirstName, Students.StudLastName, 
          COUNT(SClasses.StudentID) AS NumberCompleted, SUM(SClasses.Credits) AS TotalCredits, 
          (CASE COUNT(SClasses.StudentID) 
           WHEN 0 THEN 0 
-          ELSE ROUND(SUM(SClasses.Credits * SClasses.Grade) / SUM(SClasses.Credits), 3) END) AS GPA
+          ELSE ROUND(CAST(SUM(SClasses.Credits * SClasses.Grade) / SUM(SClasses.Credits) AS numeric), 3) END) AS GPA
 FROM     Students LEFT OUTER JOIN
             (SELECT Student_Schedules.StudentID, Student_Schedules.Grade, Classes.Credits
              FROM   (Student_Schedules INNER JOIN Student_Class_Status 
@@ -885,30 +883,6 @@ FROM     Students LEFT OUTER JOIN
              ON Student_Schedules.ClassID = Classes.ClassID
              WHERE  (Student_Class_Status.ClassStatusDescription = 'Completed') 
                 AND (Student_Schedules.Grade >= 67)) AS SClasses 
-         ON Students.StudentID = SClasses.StudentID
-GROUP BY Students.StudentID, Students.StudFirstName, Students.StudLastName;
-
-Note, however, that you can copy and paste the SELECT statement (without CREATE VIEW) into the query window to get the results directly.
-*/
-
-CREATE VIEW CH19_Student_Classes_Passed
-AS
-SELECT Student_Schedules.StudentID, Student_Schedules.Grade, Classes.Credits
-FROM   (Student_Schedules INNER JOIN Student_Class_Status 
-ON Student_Schedules.ClassStatus = Student_Class_Status.ClassStatus) 
-INNER JOIN Classes 
-ON Student_Schedules.ClassID = Classes.ClassID
-WHERE  (Student_Class_Status.ClassStatusDescription = 'Completed') 
-  AND (Student_Schedules.Grade >= 67);
-
-CREATE VIEW CH19_Student_GPA_Avoid_0_Passed
-AS
-SELECT   Students.StudentID, Students.StudFirstName, Students.StudLastName, 
-         COUNT(SClasses.StudentID) AS NumberCompleted, SUM(SClasses.Credits) AS TotalCredits, 
-         (CASE COUNT(SClasses.StudentID) 
-          WHEN 0 THEN 0 
-          ELSE ROUND(SUM(SClasses.Credits * SClasses.Grade) / SUM(SClasses.Credits), 3) END) AS GPA
-FROM     Students LEFT OUTER JOIN CH19_Student_Classes_Passed AS SClasses 
          ON Students.StudentID = SClasses.StudentID
 GROUP BY Students.StudentID, Students.StudFirstName, Students.StudLastName;
 
